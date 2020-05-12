@@ -1,33 +1,6 @@
 <template>
     <div class="addStudent">
         <!-- <input type="button" value="添加" class="add color_green"> -->
-
-        <div class="select-info">
-            <select name="college" id="">
-                <option value="计算机科学学院">计算机科学学院</option>
-            </select>
-
-            <select name="major" id="">
-                <option value="软件工程">软件工程</option>
-                <option value="网络工程">网络工程</option>
-                <option value="计算机科学与技术">计算机科学与技术</option>
-                <option value=""></option>
-            </select>
-
-            <select name="grade" id="">
-                <option value="2016">2016级</option>
-                <option value="2017">2017级</option>
-                <option value="2018">2018级</option>
-                <option value="2019">2019级</option>
-            </select>
-
-            <select name="class" id="">
-                <option value="1">1班</option>
-                <option value="2">2班</option>
-                <option value="3">3班</option>
-                <option value="4">4班</option>
-            </select>
-        </div>
         <div class="separateLine color_green">添加结果(学生)</div>
             <table border="0">
                 <tr>
@@ -192,11 +165,6 @@ export default {
 <style>
 
 @import "../../../assets/css/color.css";
-
-.select-info{
-    margin-top: 20px;
-    margin: 0 auto;
-}
 
 .addStudent > table > tr >td > select{
     border: none;
