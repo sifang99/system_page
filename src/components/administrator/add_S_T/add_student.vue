@@ -30,7 +30,7 @@
                         </select>
                     </td>
                     <td> 
-                        <input v-model="item.birth" type="date"></input>
+                        <input v-model="item.birth" id="birth" type="date" min="1990-01-01"></input>
                     </td>
                     <td> 
                         <input v-model="item.pol"></input>
@@ -143,7 +143,16 @@ export default {
             };
             this.students[i] = studentInfo;
         }
-        console.log(this.students);
+        // console.log(this.students);
+    },
+    mounted(){
+        //设置录入学生出生日期时，可以输入的日期的最大值
+        var date = new Date();
+        var year = date.getFullYear();
+        //js中获取月份时，会比当前月份少1，
+        var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth()+1) : (date.getMonth() + 1);
+        var day = date.getUTCDate();
+        document.getElementById("birth").setAttribute("max",year + "-" + month + "-" + day);
     }
 }
 </script>

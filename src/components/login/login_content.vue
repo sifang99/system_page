@@ -13,7 +13,7 @@
                         <label>密码：</label>
                         <input type="password" v-model="user.password" class="user_psd">
                         <br>
-                        <input type="checkbox" v-model="remember" class="remember_psd">
+                        <input type="checkbox"  v-model="rememberPassword" value="true" class="remember_psd">
                         <label>记住用户</label>
                         <br>
                         <button id="submit" type="button" class="color_green" @click="login">确认</button>
@@ -36,7 +36,7 @@ export default {
                 username:"",
                 role:'0',
             },
-            remember: false,
+            rememberPassword:false,
         }
     },
     methods: {
@@ -68,18 +68,30 @@ export default {
                 
                 this.$axios.post("/user/login",this.user).then((response) => {
 
-                    // console.log(response.data);
-                    
-                    this.$emit("Login",response.data);
+                    console.log(response.data);
+                    console.log(response.token);
+                    if(response.data.state){
+                        
+                        if(this.rememberPassword){
+
+                        }
+
+
+                        this.$emit("Login",response.data);
+                    }else{
+                        alert("登陆失败！");
+                    }
                     
                     }).catch(function (error){
                         console.log("TAG","错误");        
                     });
                  
-            }
+            },
+           
     },
 
     mounted(){
+
         //在登录界面绘制两个小圆点
         var l_canvas = document.getElementById("left_circular");
         var l_ctx = l_canvas.getContext("2d");
