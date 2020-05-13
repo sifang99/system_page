@@ -20,7 +20,7 @@
                     </li>
                     <li>
                         <img src="../../assets/img/icon_attention.png" alt="">
-                        <router-link to="/student/stu_attention">
+                        <router-link to="#">
                             <input type="button" value="我需留意" class="menu-item">
                         </router-link>
                     </li>

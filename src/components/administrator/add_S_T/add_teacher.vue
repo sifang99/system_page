@@ -1,7 +1,7 @@
 <template>
     <div class="addTeacher">
 
-        <!-- <input type="button" value="添加" class="add color_green" @click="add"> -->
+        <input type="button" value="添加" class="add color_green" @click="add">
 
         <div class="separateLine color_green">添加结果（教师）</div>
 
@@ -67,6 +67,9 @@ export default {
         }
     },
     methods:{
+        add(){
+            this.teachers.push({});
+        },
         submit(){
 
             //检验输入是否合法
@@ -107,23 +110,15 @@ export default {
             //     return ;
             // }
             console.log(this.teachers);
-            this.teachers = JSON.stringify(this.teachers);
+            var teachers = JSON.stringify(this.teachers);
             console.log(this.teachers);
             // //发送http请求
-            this.$axios.post("/teacher/insertTeacher",this.teachers)
+            this.$axios.post("/teacher/insertTeacher",teachers)
             .then(res => {
                 console.log(res);
                 if(res.data.state){
                     alert("添加成功！");
-                    // this.teacherInfo.tno = "";
-                    // this.teacherInfo.tname = "";
-                    // this.teacherInfo.sex = null;
-                    // this.teacherInfo.worktime = "";
-                    // this.teacherInfo.pol = "";
-                    // this.teacherInfo.edurecord = "";
-                    // this.teacherInfo.position = "";
-                    // this.teacherInfo.dept = "";
-                    // this.teacherInfo.tel = "";
+                    this.teachers.splice(0,this.teachers.length);
                 }else{
                     alert("添加失败！");
                 }
@@ -133,26 +128,6 @@ export default {
             })
         }
     },
-    created(){
-
-        console.log("TAG"+"created()");
-        //初始化数组
-        var i = 0;
-        for(; i< 2; i++){
-            var teacher = {
-                tno:"",
-                tname:"",
-                sex:null,
-                worktime:"",
-                pol:"",
-                edurecord:"",
-                position:"",
-                dept:"",
-                tel:""
-            };
-            this.teachers[i] = teacher;
-        }
-    }
 
 }
 </script>

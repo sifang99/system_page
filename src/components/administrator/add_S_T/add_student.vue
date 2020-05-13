@@ -70,18 +70,7 @@ export default {
     },
     methods:{
         add(){
-            R = studentList.inserRow();
-            C = R.insertCell();
-            C.innerHTML = "<input></input>";
-            C.innerHTML = "<input></input>";
-            C.innerHTML = "<input></input>";
-            C.innerHTML = "<input></input>";
-            C.innerHTML = "<input></input>";
-            C.innerHTML = "<input></input>";
-            C.innerHTML = "<input></input>";
-            C.innerHTML = "<input></input>";
-            C.innerHTML = "<input></input>";
-            C.innerHTML = "<input></input>";
+           this.students.push({});
         },
 
         submit(){
@@ -134,19 +123,7 @@ export default {
                 console.log(res);
                 if(res.data.state){
                     alert("添加成功！");
-                    var i = 0;
-                    for(; i< this.students.length; i++){
-                        this.students[i]. sno = "";
-                        this.students[i]. sname = "";
-                        this.students[i]. sex = "";
-                        this.students[i]. birth = "";
-                        this.students[i]. gs = "";
-                        this.students[i]. pol = "";
-                        this.students[i]. classno = "";
-                        this.students[i]. major = "";
-                        this.students[i]. dept = "";
-                        this.students[i]. grade = "";
-                    }
+                    this.students.splice(0,this.students.length);
                 }else{
                     alert("添加失败！");
                 }
@@ -154,26 +131,6 @@ export default {
                 alert("发生错误!");
             });
         }
-    },
-    //组件创建后，初始化students[]数组
-    created(){
-        var i = 0;
-        for(; i < 2; i++){
-            var studentInfo = {
-                sno:"",
-                sname:"",
-                sex:null,
-                birth:null,
-                gs:"",
-                pol:"",
-                classno:"",
-                major:"",
-                dept:"",
-                grade:"",
-            };
-            this.students[i] = studentInfo;
-        }
-        // console.log(this.students);
     },
     mounted(){
         //设置录入学生出生日期时，可以输入的日期的最大值

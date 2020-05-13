@@ -12,6 +12,7 @@ import teacherInfo from '../components/teacher/thr_info'
 import studentInfo from '../components/student/stu_info'
 import changePassword from '../components/change_password'
 import chooseCourse from '../components/student/stu_choosecourse'
+import test from '../components/test'
 
 
 Vue.use(Router)
@@ -62,6 +63,11 @@ export default new Router({
       name:'student',
       component: student,
       children:[
+        {
+          path:'test',
+          name:'test',
+          component:test,
+        },
         {
           path:'chooseCourse',
           name:'chooseCourse',
