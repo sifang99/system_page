@@ -64,7 +64,20 @@ export default {
         // eslint-disable-next-line no-undef
         // number: choosenumber + '/' + maxnumber
         number: 11
-      } ]
+      },
+      {
+        cno: '002',
+        cname: '计算机网络',
+        credit: 4,
+        teacher: 'ddd',
+        place: '成龙',
+        // maxnumber: '50',
+        // choosenumber: '10',
+        // eslint-disable-next-line no-undef
+        // number: choosenumber + '/' + maxnumber
+        number: 11
+      }
+       ]
     }
   }
 }

@@ -69,6 +69,7 @@
 </template>
 
 <script>
+// import func from '../../../vue-temp/vue-editor-bridge';
 export default {
   name: 'thr-info',
   data () {
@@ -102,6 +103,23 @@ export default {
         },
         submit(){
             this.isUpdate = false;
+            if(this.teacherInfo.sex == "女"){
+                this.teacherInfo.sex = 0;
+            }else{
+                this.teacherInfo.sex = 1;
+            }
+
+            this.$axios.post("/teacher/update",this.teacherInfo)
+            .then(res => {
+                if(res.data.state){
+                    alert("修改成功！");
+                }else{
+                    alert("修改失败！");
+                }
+            })
+            .cath(function (error){
+                alert("发生错误！");
+            })
         },
         Cancel(){
             this.isUpdate = false;

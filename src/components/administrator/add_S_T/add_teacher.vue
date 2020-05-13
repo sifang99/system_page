@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import qs from 'qs';
 export default {
     name:'addTeacher',
     data(){
@@ -69,58 +70,60 @@ export default {
         submit(){
 
             //检验输入是否合法
-            if( this.teacherInfo.tno.length != 8){
-                alert("请输入正确的教师编号！");
-                return ;
-            }
-            if(this.teacherInfo.tname.length == 0){
-                alert("请输入教师名字！");
-                return ;
-            }
-            if(this.teacherInfo.sex == null){
-                alert("请输入教师性别！");
-                return ;
-            }
-            if(this.teacherInfo.worktime.length == 0){
-                alert("请输入教师工作时间！");
-                return ;
-            }
-            if(this.teacherInfo.pol.length == 0){
-                alert("请输入教师政治面貌！");
-                return ;
-            }
-            if(this.teacherInfo.edurecord.length == 0){
-                alert("请输入教师学历！");
-                return ;
-            }
-            if(this.teacherInfo.position.length == 0){
-                alert("请输入教师工作职位！");
-                return ;
-            }
-            if(this.teacherInfo.dept.length == 0){
-                alert("请输入教师工作院系！");
-                return ;
-            }
-            if(this.teacherInfo.tel.length == 0){
-                alert("请输入教师电话号码！");
-                return ;
-            }
-
-            //发送http请求
-            this.$axios.post("/teacher/insertTeacher",this.teacherInfo)
+            // if( this.teacherInfo.tno.length != 8){
+            //     alert("请输入正确的教师编号！");
+            //     return ;
+            // }
+            // if(this.teacherInfo.tname.length == 0){
+            //     alert("请输入教师名字！");
+            //     return ;
+            // }
+            // if(this.teacherInfo.sex == null){
+            //     alert("请输入教师性别！");
+            //     return ;
+            // }
+            // if(this.teacherInfo.worktime.length == 0){
+            //     alert("请输入教师工作时间！");
+            //     return ;
+            // }
+            // if(this.teacherInfo.pol.length == 0){
+            //     alert("请输入教师政治面貌！");
+            //     return ;
+            // }
+            // if(this.teacherInfo.edurecord.length == 0){
+            //     alert("请输入教师学历！");
+            //     return ;
+            // }
+            // if(this.teacherInfo.position.length == 0){
+            //     alert("请输入教师工作职位！");
+            //     return ;
+            // }
+            // if(this.teacherInfo.dept.length == 0){
+            //     alert("请输入教师工作院系！");
+            //     return ;
+            // }
+            // if(this.teacherInfo.tel.length == 0){
+            //     alert("请输入教师电话号码！");
+            //     return ;
+            // }
+            console.log(this.teachers);
+            this.teachers = JSON.stringify(this.teachers);
+            console.log(this.teachers);
+            // //发送http请求
+            this.$axios.post("/teacher/insertTeacher",this.teachers)
             .then(res => {
                 console.log(res);
                 if(res.data.state){
                     alert("添加成功！");
-                    this.teacherInfo.tno = "";
-                    this.teacherInfo.tname = "";
-                    this.teacherInfo.sex = null;
-                    this.teacherInfo.worktime = "";
-                    this.teacherInfo.pol = "";
-                    this.teacherInfo.edurecord = "";
-                    this.teacherInfo.position = "";
-                    this.teacherInfo.dept = "";
-                    this.teacherInfo.tel = "";
+                    // this.teacherInfo.tno = "";
+                    // this.teacherInfo.tname = "";
+                    // this.teacherInfo.sex = null;
+                    // this.teacherInfo.worktime = "";
+                    // this.teacherInfo.pol = "";
+                    // this.teacherInfo.edurecord = "";
+                    // this.teacherInfo.position = "";
+                    // this.teacherInfo.dept = "";
+                    // this.teacherInfo.tel = "";
                 }else{
                     alert("添加失败！");
                 }
@@ -132,9 +135,10 @@ export default {
     },
     created(){
 
+        console.log("TAG"+"created()");
         //初始化数组
         var i = 0;
-        for(; i< 20; i++){
+        for(; i< 2; i++){
             var teacher = {
                 tno:"",
                 tname:"",

@@ -26,7 +26,7 @@
                     </li>
                     <li>
                         <img src="../../assets/img/icon_book.jpg" alt="">
-                        <router-link to="#">
+                        <router-link to="/student/chooseCourse">
                             <input type="button" value="选课" class="menu-item">
                         </router-link>
                     </li>

@@ -46,7 +46,7 @@
                     </li>
                     <li>
                         <img src="../../assets/img/icon_people.jpg" alt="">
-                        <router-link to="#">
+                        <router-link to="/test">
                             <input type="button" value="注销教师/学生账号" class="menu-item">
                         </router-link>
                     </li>

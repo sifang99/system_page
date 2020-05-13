@@ -27,9 +27,9 @@
   
                 </td>
                 <td>
-                    <label>学院：</label>
-                    <label v-show="!isUpdate">{{studentInfo.dept}}</label>
-                    <input type="text" v-show="isUpdate" v-model="studentInfo.dept">
+                    <label>毕业学校：</label>
+                    <label v-show="!isUpdate">{{studentInfo.gs}}</label>
+                    <input type="text" v-show="isUpdate" v-model="studentInfo.gs">
                 </td>
             </tr>
             <tr>
@@ -39,28 +39,35 @@
                     <input type="text" v-show="isUpdate" v-model="studentInfo.pol">
                 </td>
                 <td>
-                    <label>专业：</label>
-                    <label v-show="!isUpdate">{{studentInfo.major}}</label>
-                    <input type="text" v-show="isUpdate" v-model="studentInfo.major">
-                </td>
-            </tr>
-            <tr>
-                <td>
                     <label>出生日期：</label>
                     <label v-show="!isUpdate">{{studentInfo.birth}}</label>
                     <input type="text" v-show="isUpdate" v-model="studentInfo.birth">
                 </td>
+            </tr>
+            <tr>
                 <td>
-                    <label>班级：</label>
-                    <label v-show="!isUpdate"> {{studentInfo.classno}}</label>
-                    <input type="text" v-show="isUpdate" v-model="studentInfo.classno">
+                    <label>学院：</label>
+                    <label v-show="!isUpdate">{{studentInfo.dept}}</label>
+                    <input type="text" v-show="isUpdate" v-model="studentInfo.dept">
+                    
+                </td>
+                <td>
+                    <label>专业：</label>
+                    <label v-show="!isUpdate">{{studentInfo.major}}</label>
+                    <input type="text" v-show="isUpdate" v-model="studentInfo.major">
+                    
                 </td>
             </tr>
             <tr>
-                <td colspan="2">
-                    <label>毕业学校：</label>
-                    <label v-show="!isUpdate">{{studentInfo.gs}}</label>
-                    <input type="text" v-show="isUpdate" v-model="studentInfo.gs">
+                <td >
+                    <label>年级：</label>
+                    <label v-show="!isUpdate"> {{studentInfo.grade}}</label>
+                    <input type="text" v-show="isUpdate" v-model="studentInfo.grade">
+                </td>
+                <td >
+                    <label>班级：</label>
+                    <label v-show="!isUpdate"> {{studentInfo.classno}}</label>
+                    <input type="text" v-show="isUpdate" v-model="studentInfo.classno">
                 </td>
             </tr>
         </table>
@@ -88,6 +95,7 @@ export default {
             birth: "",
             classno: "",
             gs: "",
+            grade:"",
         },
         isUpdate:false,
     }
@@ -113,6 +121,28 @@ export default {
   methods: {
     submit(){
         this.isUpdate = false;
+        if(this.studentInfo.sex == "女"){
+            this.studentInfo.sex = 0;
+        }else{
+            this.studentInfo = 1;
+        }
+        this.$axios.post("/student/update",this.studentInfo)
+        .then(res => {
+            if(res.data.state){
+                alert("修改成功！");
+                console.log(this.studentInfo);
+                if(this.studentInfo.sex == 0){
+                    this.studentInfo.sex = '女';
+                }else{
+                    this.studentInfo.sex = '男';
+                 }
+            }else{
+                alert("修改失败！");
+            }
+        })
+        .catch(function (error){
+            alert("发生错误！");
+        });
     },
     Update(){
         this.isUpdate = true;

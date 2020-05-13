@@ -1,5 +1,9 @@
 <template>
     <div class="info-box"> 
+        
+        <button class="modification btn color_green" @click="Update">修改</button>
+        <button class="btn color_green" @click="Cancel">取消</button>
+
         <table border="0">
             <th colspan="2">
                个人资料
@@ -9,35 +13,50 @@
                     职工编号：{{info.mno}}
                 </td>
                 <td>
-                    姓名： {{info.mname}}
+                    <label>姓名：</label>
+                    <label v-show="!isUpdate">{{info.mname}}</label>
+                    <input type="text" v-show="isUpdate" v-model="info.mname">
                 </td>
             </tr>
             <tr>
                 <td>
-                    性别： {{info.msex}}
+                    <label>性别：</label>
+                    <label v-show="!isUpdate">{{info.msex}}</label>
+                    <input type="text" v-show="isUpdate" v-model="info.msex">
                 </td>
                 <td>
-                    工作时间： {{info.worktime}}
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    政治面貌： {{info.pol}}
-                </td>
-                <td>
-                    学历： {{info.edurecord}}
+                    <label>工作时间：</label>
+                    <label v-show="!isUpdate">{{info.worktime}}</label>
+                    <input type="text" v-show="isUpdate" v-model="info.worktime">
                 </td>
             </tr>
             <tr>
                 <td>
-                    职称： {{info.position}}
+                    <label>政治面貌：</label>
+                    <label v-show="!isUpdate">{{info.pol}}</label>
+                    <input type="text" v-show="isUpdate" v-model="info.pol">
+                </td>
+                <td>
+                    <label>学历：</label>
+                    <label v-show="!isUpdate">{{info.edurecord}}</label>
+                    <input type="text" v-show="isUpdate" v-model="info.edurecord">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>职称：</label>
+                    <label v-show="!isUpdate">{{info.position}}</label>
+                    <input type="text" v-show="isUpdate" v-model="info.position">
                 </td>
                <td>
-                    联系方式： {{info.tel}}
+                    <label>联系方式：</label>
+                    <label v-show="!isUpdate">{{info.tel}}</label>
+                    <input type="text" v-show="isUpdate" v-model="info.tel">
                 </td>
             </tr>
             
         </table>
+         <button v-show="isUpdate" class="submit btn color_green" @click="submit">提交</button>
     </div>
 </template>
 
@@ -47,6 +66,7 @@ export default {
     data(){
         return {
             admin:this.getUser,
+            isUpdate:false,
             info:{
                 mno:"",
                 mname:"",
@@ -57,6 +77,39 @@ export default {
                 tel:"",
                 worktime:"",
             }
+        }
+    },
+    methods:{
+        Update(){
+            this.isUpdate = true;
+        },
+        Cancel(){
+            this.isUpdate = false;
+        },
+        submit(){
+            if(this.info.msex == "女"){
+                this.info.msex = 0;
+            }else{
+                this.info.msex = 1;
+            }
+            this.$axios.post("/manager/update",this.info)
+            .then(res => {
+                if(res.data.state){
+                    alert("修改成功！");
+                    if(this.info.msex == '0'){
+                        this.info.msex = '女';
+                    }
+                    if(this.info.msex == '1'){
+                        this.info.msex = '男';
+                     }
+                }else{
+                    alert("修改失败！");
+                }
+            })
+            .catch(function (error){
+                alert("发生错误！");
+            })
+            this.isUpdate = true;
         }
     },
     props:[
