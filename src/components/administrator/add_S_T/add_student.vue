@@ -114,9 +114,9 @@ export default {
 
             // this.students = qs.stringify(this.students);
             // this.students = JSON.stringify(this.students);
-            console.log(this.students);
+            // console.log(this.students);
             var students = JSON.stringify(this.students);
-            console.log(this.students);
+            // console.log(this.students);
             //发送http请求
             this.$axios.post("student/insertStudent",students)
             .then(res => {

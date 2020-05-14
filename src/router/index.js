@@ -12,7 +12,9 @@ import teacherInfo from '../components/teacher/thr_info'
 import studentInfo from '../components/student/stu_info'
 import changePassword from '../components/change_password'
 import chooseCourse from '../components/student/stu_choosecourse'
+import recordgrade from '../components/teacher/recordgrade'
 import test from '../components/test'
+
 
 
 Vue.use(Router)
@@ -91,6 +93,11 @@ export default new Router({
       name:'teacher',
       component:teacher,
       children:[
+        {
+          path:'recordgrade',
+          name:'recordegrade',
+          component:recordgrade
+        },
         {
           path:'changPassword',
           name:'changPassword',

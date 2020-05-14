@@ -2,13 +2,12 @@
     <div class="course-bck">
         <p>发 布 选 课</p>
         <div class="course-line color_green"></div>
-        <input type="button" value="添加" class="add color_green">
+        <input type="button" value="添加" class="add color_green" @click="add">
 
-        <div class="separateLine color_green">添加结果</div>
-        
-        <form action="#" class="addForm">
-            <table border="0">
+        <div class="separateLine color_green" >添加结果</div>
+            <table border="0" class="addForm">
                 <tr>
+                    <td> 序号</td>
                     <td> 课程代码</td>
                     <td> 课程名 </td>
                     <td> 授课教师 </td>
@@ -16,11 +15,63 @@
                     <td> 授课校区 </td>
                     <td> 选课人数 </td>
                 </tr>
+                <tr v-for="(item,index) in courses" :key="index">
+                    <td> {{index+1}} </td>
+                    <td>
+                        <input v-model="item.cno"></input>
+                    </td>
+                    <td> 
+                        <input v-model="item.cname"></input>
+                    </td>
+                    <td>  
+                        <input v-model="item.tname"></input>
+                    </td>
+                    <td> 
+                        <input v-model="item.credit"></input>
+                    </td>
+                    <td> 
+                        <input v-model="item.place"></input>
+                    </td>
+                    <td>  
+                        <input v-model="item.number"></input>
+                    </td>
+                </tr>
             </table>
-            <input type="button" name="" id="add_course_submit" value="提交" class="color_green">
-        </form>
+            <input type="button" name="" id="add_course_submit" value="提交" class="color_green" @click="submit">
     </div>
 </template>
+
+<script>
+export default {
+    name:'addCourse',
+    data(){
+        return{
+            courses:[],
+        }
+    },
+    methods:{
+        add(){
+            this.courses.push({})
+        },
+        submit(){
+            var courses = JSON.stringify(this.courses);
+            console.log(courses);
+            this.$axios.post("/optional/addOptional",courses)
+            .then(res => {
+                if(res.data.state){
+                    alert("添加成功！");
+                    this.courses.splice(0,this.courses.length);
+                }else{
+                    alert("添加失败！");
+                }
+            })
+            .catch(function(error){
+                alert("发生错误！");
+            });
+        }
+    }
+}
+</script>
 
 <style>
 @import "../../assets/css/color.css";
@@ -55,19 +106,22 @@
 .addForm{
     margin-top: 20px;
     margin-bottom: 50px;
-}
-
-.addForm > table{
     margin: 0 auto;
     width: 100%;
     border-left: 2px solid #CCCCCC;
     border-top: 2px solid #CCCCCC;
 }
 
-.addForm > table > tr >td{
+.addForm > tr >td{
     text-align: center;
     border-right: 2px solid #CCCCCC;
     border-bottom: 2px solid #CCCCCC;
+}
+
+.addForm  > tr >td > input{
+    border: none;
+    height: 30px;
+    width: 100%;
 }
 
 .add{

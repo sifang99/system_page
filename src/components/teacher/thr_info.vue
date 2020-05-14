@@ -1,8 +1,8 @@
 <template>
     <div class="teacher-info-box">
 
-        <button class="modification btn color_green" @click="Update">修改</button>
-        <button class="btn color_green" @click="Cancel">取消</button>
+        <button class="modification teacher-info-btn color_green" @click="Update">修改</button>
+        <button class="teacher-info-btn color_green" @click="Cancel">取消</button>
 
         <table border="0">
             <th colspan="2">
@@ -64,7 +64,7 @@
                 </td>
             </tr>
         </table>
-        <button v-show="isUpdate" class="submit btn color_green" @click="submit">提交</button>
+        <button v-show="isUpdate" class="submit teacher-info-btn color_green" @click="submit">提交</button>
     </div>
 </template>
 
@@ -146,7 +146,7 @@ export default {
 
 <style>
 @import "../../assets/css/color.css";
-.btn{
+.teacher-info-btn{
     width: 60px;
     height: 30px;
     border-radius: 7%;

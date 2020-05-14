@@ -1,8 +1,8 @@
 <template>
     <div class="info-box"> 
         
-        <button class="modification btn color_green" @click="Update">修改</button>
-        <button class="btn color_green" @click="Cancel">取消</button>
+        <button class="modification info-btn color_green" @click="Update">修改</button>
+        <button class="info-btn color_green" @click="Cancel">取消</button>
 
         <table border="0">
             <th colspan="2">
@@ -56,7 +56,7 @@
             </tr>
             
         </table>
-         <button v-show="isUpdate" class="submit btn color_green" @click="submit">提交</button>
+         <button v-show="isUpdate" class="submit info-btn color_green" @click="submit">提交</button>
     </div>
 </template>
 
@@ -138,6 +138,25 @@ export default {
 </script>
 
 <style>
+
+.info-btn{
+    width: 60px;
+    height: 30px;
+    border-radius: 7%;
+    border-style: none;
+}
+
+.modification{
+    margin-left: 650px;
+    margin-right: 30px;
+    margin-bottom: 30px;
+}
+
+
+.submit{
+    margin-left: 350px;
+    margin-top: 30px;
+}
 
 .info-box{
     width: 90%;

@@ -32,7 +32,7 @@
                     </li>
                     <li>
                         <img src="../../assets/img/icon_right.png" alt="">
-                        <router-link to="#">
+                        <router-link to="/teacher/recordgrade">
                             <input type="button" value="登记成绩" class="menu-item">
                         </router-link>
                     </li>

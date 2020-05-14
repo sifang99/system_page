@@ -12,11 +12,11 @@ const portfinder = require('portfinder')
 
 
 // mock code
-const express = require('express')
-const app = express()
-const posts = require('../mock/test.json') 
-const routes = express.Router()
-app.use('/api', routes)
+// const express = require('express')
+// const app = express()
+// const posts = require('../mock/test.json') 
+// const routes = express.Router()
+// app.use('/api', routes)
 
 // 如果是post请求，那么将get改为post即可
 
@@ -55,12 +55,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     watchOptions: {
       poll: config.dev.poll,
     },
-    before(app){
-      app.get('/api/test', (req, res) => {
-       res.json(posts)
-      })
+    // before(app){
+    //   app.get('/api/test', (req, res) => {
+    //    res.json(posts)
+    //   })
      
-      }
+    //   }
   },
   plugins: [
     new webpack.DefinePlugin({

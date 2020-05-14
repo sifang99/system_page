@@ -23,6 +23,7 @@ Vue.prototype.$axios = axios;
 //配置前后端数据交互的请求头：
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
+
 // 设置后台的访问地址
 axios.defaults.baseURL = 'http://localhost:8989/system';
 //拦截请求，并将json字符串序列化
