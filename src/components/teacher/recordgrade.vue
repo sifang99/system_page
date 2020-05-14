@@ -29,7 +29,7 @@
     </div>
 
     <div id="recordgrade-wrapper">
-    <el-table :data="record.slice((currentPage-1)*pagesize,currentPage*pagesize)"  style="width: 100%">
+    <el-table :model="grade" :data="record.slice((currentPage-1)*pagesize,currentPage*pagesize)"  style="width: 100%">
         <el-table-column
         type="index"
         label="序号"
@@ -50,13 +50,13 @@
 
         <el-table-column label="平时成绩">
         <el-table-column prop="normalgrade" label="占比20%" width="120">
-            <el-input v-model="normalgrade" clearable></el-input>
+            <el-input v-model="grade.normalgrade" clearable @input="RecordGrade($event)"></el-input>
         </el-table-column>
         </el-table-column>
 
         <el-table-column label="期中成绩">
         <el-table-column prop="middlegrade" label="占比30%" width="120">
-                <el-input  v-model="middlegrade" clearable @input="RecordGrade"></el-input>
+                <el-input  clearable @input="RecordGrade($event)"></el-input>
             </el-table-column>
         </el-table-column>
 
@@ -65,7 +65,7 @@
             prop="finalgrade"
             label="占比50%"
             width="120">
-            <el-input v-model="finalgrade" clearable @input="RecordGrade"></el-input>
+            <el-input  clearable @input="RecordGrade($event)"></el-input>
         </el-table-column>
         </el-table-column>
 
@@ -91,7 +91,7 @@
             </el-pagination>
         </div>
     </div>
-  <el-button type="success" round id="btn-sure">确定</el-button>
+  <el-button type="success" round id="btn-sure" @click="submit">提交</el-button>
 </div>
 </template>
 
@@ -101,10 +101,22 @@ export default {
   data () {
     return {
       currentPage: 1, //默认显示页面为1
-      pagesize: 5, //    每页的数据条数
-       // 登记成绩记录信息
-       totalgrade:0,
+      pagesize: 5, //    每页的数据条数 
       record: [], //需要data定义一些，tableData定义一个空数组，请求的数据都是存放这里面
+
+       // 登记成绩记录信息
+      totalgrade:0,
+      normalgrade:"",
+      middlegrade:"",
+      finalgrade:"",
+
+      // 选项的值会保存到这里对应v-model的数据中
+      term: '',
+      course: '',
+      cclass: '',
+      grade: '',
+      year:'',
+
       terms: [{
         value: '2017-2018学年第一学期',
         label: '2017-2018学年第一学期'
@@ -174,30 +186,42 @@ export default {
         gradeno: '2019',
         gradename: '2019'
       }],
-      // 选项的值会保存到这里对应v-module的数据中
-      term: '',
-      course: '',
-      cclass: '',
-      grade: '',
-      year:'',
-
-     
+      
+      grade:[],
     }
   },
 
   methods: {
+    submit(){
+      console.log(this.record);
+    },
+     // 记录成绩
+    RecordGrade (e) {
+    //   this.totalgrade = 0.2 * this.normalgrade + 0.3 * this.middlegrade + 0.5 * this.finalgrade
+    },
     getData() {
-        console.log("page:",this.currentPage," rows: ",this.pagesize, 
-        " cname: ",this.course," grade: ",this.grade, " classno: ",this.cclass);
+        // console.log("page:",this.currentPage," rows: ",this.pagesize, 
+        // " cname: ",this.course," grade: ",this.grade, " classno: ",this.cclass);
         this.$axios.get('/student/findByPage',{params:{"page":this.currentPage,
          "rows":this.pagesize, "cname":this.course, "grade":this.grade,"classno":this.cclass}})
         .then(response => {
-          console.log(response.data);
-          this.record = response.data.students;
-          
-        }, response => {
-        console.log("error");
-        });
+          // console.log(response.data);
+          if(response.data.totalPage == 0){
+            alert("查询失败！");
+          }else{
+            this.record = response.data.students;
+            var i = 0;
+            for(; i<this.record.length; i++){
+              this.record[i].middlegrade = "";
+              this.record[i].normalgrade = "";
+              this.record[i].finalgrade = "";
+              this.record[i].totalgrade = 0;
+            }
+            console.log(this.record);
+          }      
+        }).catch(function(error){
+          alert("发生错误！");
+        }) ;
     },
     //每页下拉显示数据
     handleSizeChange: function(size) {
@@ -213,10 +237,6 @@ export default {
     //查询班级
     query(){
         this.getData();
-    },
-    // 记录成绩
-    RecordGrade () {
-    //   this.totalgrade = 0.2 * this.normalgrade + 0.3 * this.middlegrade + 0.5 * this.finalgrade
     },
    
     // 获取选择信息-测试用 直接用this.term就可获取到选择信息  其他选择类似

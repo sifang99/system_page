@@ -33,7 +33,7 @@
                         <input v-model="item.place"></input>
                     </td>
                     <td>  
-                        <input v-model="item.number"></input>
+                        <input v-model="item.max"></input>
                     </td>
                 </tr>
             </table>
@@ -54,10 +54,15 @@ export default {
             this.courses.push({})
         },
         submit(){
+            var i = 0;
+            for( ; i < this.courses.length; i++){
+                this.courses[i].number = 0;
+            }
             var courses = JSON.stringify(this.courses);
             console.log(courses);
             this.$axios.post("/optional/addOptional",courses)
             .then(res => {
+                console.log(res);
                 if(res.data.state){
                     alert("添加成功！");
                     this.courses.splice(0,this.courses.length);
