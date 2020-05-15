@@ -15,13 +15,13 @@
 
         <el-select v-model="course" clearable placeholder="请选择课程" popper-class="courses"
         @change="GetCourse($event)">
-            <el-option v-for="item in courses" :key="item.cno" :label="item.cname" :value="item.cname">
+            <el-option v-for="item in courses" :key="item" :label="item" :value="item">
             </el-option>
         </el-select>
 
         <el-select v-model="cclass" clearable placeholder="请选择授课班级" popper-class="classes"
         @change="GetClass($event)">
-            <el-option v-for="item in classes" :key="item.classno" :label="item.classname" :value="item.classno">
+            <el-option v-for="item in classes" :key="item" :label="item" :value="item">
             </el-option>
         </el-select>
 
@@ -29,7 +29,7 @@
     </div>
 
     <div id="recordgrade-wrapper">
-    <el-table :model="grade" :data="record.slice((currentPage-1)*pagesize,currentPage*pagesize)"  style="width: 100%">
+    <el-table :data="record"  style="width: 100%">
         <el-table-column
         type="index"
         label="序号"
@@ -50,14 +50,18 @@
 
         <el-table-column label="平时成绩">
         <el-table-column prop="normalgrade" label="占比20%" width="120">
-            <el-input v-model="grade.normalgrade" clearable @input="RecordGrade($event)"></el-input>
+          <template slot-scope="normal">
+            <el-input v-model="normal.row.normalgrade" clearable @input="change($event)" max="100" min="0" maxlength="2"></el-input>
+          </template>
         </el-table-column>
         </el-table-column>
 
         <el-table-column label="期中成绩">
         <el-table-column prop="middlegrade" label="占比30%" width="120">
-                <el-input  clearable @input="RecordGrade($event)"></el-input>
-            </el-table-column>
+            <template slot-scope="middle">
+              <el-input v-model="middle.row.middlegrade" clearable @input="change($event)"  max="100" min="0" maxlength="2"></el-input>
+            </template>
+        </el-table-column>
         </el-table-column>
 
         <el-table-column label="期末成绩">
@@ -65,14 +69,20 @@
             prop="finalgrade"
             label="占比50%"
             width="120">
-            <el-input  clearable @input="RecordGrade($event)"></el-input>
-        </el-table-column>
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.finalgrade" clearable  @input="change($event)" max="100" min="0" maxlength="2"></el-input>
+            </template>   
+         </el-table-column>
         </el-table-column>
 
         <el-table-column
-        prop="totalgrade"
-        label="总成绩"
-        v-model="totalgrade">
+        prop="grade"
+        label="总成绩">
+            <template slot-scope="total">
+              <span>  {{total.row.normalgrade*0.2 + total.row.middlegrade*0.3 + total.row.finalgrade*0.5 | numFilter }} </span>
+              <!-- <el-input name="totalgrade" v-model="total.row.normalgrade*0.2 + 
+              total.row.middlegrade*0.3 + total.row.finalgrade*0.5" clearable  @input="change($event)" ></el-input> -->
+            </template>  
         </el-table-column>
 
     </el-table>
@@ -85,7 +95,7 @@
                 :page-sizes="[5, 10, 20, 40]" 
                 :page-size="pagesize" 
                 layout="total, sizes,prev, pager, next" 
-                :total="record.length" 
+                :total="totals" 
                 prev-text="上一页" 
                 next-text="下一页">
             </el-pagination>
@@ -103,12 +113,7 @@ export default {
       currentPage: 1, //默认显示页面为1
       pagesize: 5, //    每页的数据条数 
       record: [], //需要data定义一些，tableData定义一个空数组，请求的数据都是存放这里面
-
-       // 登记成绩记录信息
-      totalgrade:0,
-      normalgrade:"",
-      middlegrade:"",
-      finalgrade:"",
+      totals:0, //返回记录总条数
 
       // 选项的值会保存到这里对应v-model的数据中
       term: '',
@@ -143,34 +148,10 @@ export default {
       }],
 
       // 课程
-      courses: [{
-        cno: '001',
-        cname: '数据库'
-      }, {
-        cno: '002',
-        cname: '网络安全'
-      }, {
-        cno: '003',
-        cname: '操作系统'
-      }],
+      courses: [],
 
       // 班级
-      classes: [{
-        classno: '1',
-        classname: '一班'
-      },
-      {
-        classno: '2',
-        classname: '二班'
-      },
-      {
-        classno: '3',
-        classname: '三班'
-      },
-      {
-        classno: '4',
-        classname: '四班'
-      }],
+      classes: [],
 
       // 年级
       grades: [{
@@ -186,42 +167,95 @@ export default {
         gradeno: '2019',
         gradename: '2019'
       }],
-      
-      grade:[],
+
+      teacher:{
+        username: this.getUser.username,
+        account:this.getUser.account,
+        role:this.getUser.role,
+      }
     }
   },
+  filters:{
+    numFilter(value){
+      var realVal;
+      if(! isNaN(value) && value !== ''){
+        //截取当前数据到小数点后两位
+        realVal = parseFloat(value).toFixed(2)
+      }else{
+        realVal = value
+      }
+      return realVal
+    }
+  },
+  props:[
+    'getUser'
+  ],
 
   methods: {
+    change(e){
+      this.$forceUpdate();
+      console.log(e);
+    },
     submit(){
       console.log(this.record);
+      var i = 0;
+      for(; i< this.record.length; i++){
+        this.record[i].grade = this.record[i].normalgrade*0.2 + this.record[i].middlegrade*0.3+this.record[i].finalgrade*0.5;
+        this.record[i].cname = this.course;
+        delete this.record[i].normalgrade;
+        delete this.record[i].middlegrade;
+        delete this.record[i].finalgrade;
+        delete this.record[i].sname;
+      }
+      //  console.log(this.record);
+      this.$axios.post("/teacher/updateGrade",this.record)
+      .then(res => {
+        if(res.data.state){
+          alert("登记成功！");
+          this.record.splice(0, this.record.length);
+        }else{
+          alert("登记失败！");
+        }   
+      })
+      .catch(function(error){
+        alert("发生错误！");
+      })
+      // console.log(this.record);
+      
     },
-     // 记录成绩
-    RecordGrade (e) {
-    //   this.totalgrade = 0.2 * this.normalgrade + 0.3 * this.middlegrade + 0.5 * this.finalgrade
-    },
+ 
     getData() {
         // console.log("page:",this.currentPage," rows: ",this.pagesize, 
         // " cname: ",this.course," grade: ",this.grade, " classno: ",this.cclass);
-        this.$axios.get('/student/findByPage',{params:{"page":this.currentPage,
-         "rows":this.pagesize, "cname":this.course, "grade":this.grade,"classno":this.cclass}})
-        .then(response => {
-          // console.log(response.data);
-          if(response.data.totalPage == 0){
-            alert("查询失败！");
-          }else{
-            this.record = response.data.students;
-            var i = 0;
-            for(; i<this.record.length; i++){
-              this.record[i].middlegrade = "";
-              this.record[i].normalgrade = "";
-              this.record[i].finalgrade = "";
-              this.record[i].totalgrade = 0;
-            }
-            console.log(this.record);
-          }      
-        }).catch(function(error){
-          alert("发生错误！");
-        }) ;
+        if(this.grade == ""){
+          alert("请选择年级！");
+        }else if(this.course == "" ){
+          alert("请选择课程名！");
+        }else if (this.cclass == ""){
+          alert("请选择班级！");
+        }else{
+            this.$axios.get('/student/findByPage',{params:{"page":this.currentPage,
+            "rows":this.pagesize, "cname":this.course, "grade":this.grade,"classno":this.cclass}})
+            .then(response => {
+              // console.log(response);
+              if(response.data.totalPage == 0){
+                alert("查询失败！");
+              }else{
+                this.record = response.data.students;
+                this.totals = response.data.totals;
+                var i = 0;
+                for(; i<this.record.length; i++){
+                  this.record[i].middlegrade = "";
+                  this.record[i].normalgrade = "";
+                  this.record[i].finalgrade = "";
+                  this.record[i].grade = 0;
+                }
+                console.log(this.record);
+              }//if      
+            }).catch(function(error){
+              alert("发生错误！");
+            }) ;
+        }//if    
     },
     //每页下拉显示数据
     handleSizeChange: function(size) {
@@ -231,7 +265,8 @@ export default {
     //点击第几页
     handleCurrentChange: function(currentPage) {
       this.currentPage = currentPage;
-      /*console.log(this.currentPage) */
+      this.getData();
+      console.log(this.currentPage) 
     },
 
     //查询班级
@@ -241,16 +276,70 @@ export default {
    
     // 获取选择信息-测试用 直接用this.term就可获取到选择信息  其他选择类似
     GetTerm (e) {
-      console.log(this.term)
+      this.courses = null;
+      this.course = "";
+      this.cclass = "";
+      if(this.term != "" && this.grade != ""){
+        // console.log("TAG",this.teacher, "TAG ",this.term , " TAG ",this.grade);
+        this.$axios.get("/teacher/findCname",{params:{"tno":this.teacher.account,"term":this.term,"grade":this.grade}})
+        .then(res => {
+          // console.log(res);
+          if(res.data != null){
+            this.courses = res.data;
+          }else{
+            alert("获取课程失败！");
+            this.courses = null;
+          }
+        })
+        .catch(function(error){
+          alert("发生错误！");
+        })
+      }
+      // console.log(this.term)
     },
     GetGrade (e) {
-      console.log(this.grade)
+      this.courses = null;
+      this.course = "";
+      this.cclass = "";
+      if(this.term != "" && this.grade != ""){
+        // console.log("TAG",this.teacher, "TAG ",this.term , " TAG ",this.grade);
+        this.$axios.get("/teacher/findCname",{params:{"tno":this.teacher.account,"term":this.term,"grade":this.grade}})
+        .then(res => {
+          // console.log(res);
+          if(res.data != null){
+            this.courses = res.data;
+          }else{
+            alert("获取课程失败！");
+            this.courses = null;
+          }
+        })
+        .catch(function(error){
+          alert("发生错误！");
+        })
+      }
     },
     GetClass (e) {
-      console.log(this.cclass)
+      
     },
     GetCourse (e) {
-      console.log(this.course)
+      this.classes = null;
+      this.cclass = "";
+      if(this.term != "" && this.grade != "" && this.course != ""){
+        this.$axios.get("/teacher/findClassno",{params:{"tno":this.teacher.account,"term":this.term,"grade":this.grade,"cname":this.course}})
+        .then(res => {
+          if(res.data != null){
+            this.classes = res.data;
+          }else{
+            alert("获取班级失败！");
+          }
+        })
+        .catch(function(error){
+          alert("发生错误！");
+        });
+      }else{
+
+      }
+     
     }
   }
 }
