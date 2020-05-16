@@ -9,7 +9,7 @@
         <p class="user_name">用户：{{student.username}}</p>
         <img src="../../assets/img/user_logo.png" class="user_logo">
     </div>
-        <div id="content">
+        <div id="stu_content">
             <div class="left-bar  color_darkgray">
                 <ul>
                     <li>
@@ -20,7 +20,7 @@
                     </li>
                     <li>
                         <img src="../../assets/img/icon_attention.png" alt="">
-                        <router-link to="#">
+                        <router-link to="/student/attention">
                             <input type="button" value="我需留意" class="menu-item">
                         </router-link>
                     </li>
@@ -57,7 +57,7 @@
                         <canvas id="left_circular" class="circular"></canvas>
                         <canvas id="right_circular" class="circular"></canvas>
                         <div class="operation">
-                            <router-view v-bind:getUser="student"></router-view>
+                            <router-view v-bind:getUser="student" v-on:show="showDetail" v-bind:getDetail="message"></router-view>
                         </div>
                     </div>
                 </div>
@@ -77,6 +77,12 @@ export default {
                 account:this.getUser.user_account,
                 username:this.getUser.username,
                 role:this.getUser.role,
+            },
+            message:{
+                title: "",
+                time: "",
+                content: "",
+                role:""
             }
         }
     },
@@ -84,6 +90,9 @@ export default {
         'getUser'
     ],
     methods:{
+        showDetail(e){
+            this.message = e;
+        },
         logout(){
             this.$emit("Logout",false);
             this.$router.push('/');           
@@ -127,7 +136,7 @@ export default {
 @import "../../assets/css/administrator.css";
 @import "../../assets/css/color.css";
 
-#content{
+#stu_content{
     position: relative;
     top: 0%;
 }

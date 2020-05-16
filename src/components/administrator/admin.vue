@@ -34,7 +34,7 @@
                     </li>
                     <li>
                         <img src="../../assets/img/icon_attention.png" alt="">
-                        <router-link to="#">
+                        <router-link to="/administrator/addNotice">
                             <input type="button" value="发送通知" class="menu-item">
                         </router-link>                  
                     </li>

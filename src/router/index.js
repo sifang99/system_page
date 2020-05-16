@@ -13,8 +13,9 @@ import studentInfo from '../components/student/stu_info'
 import changePassword from '../components/change_password'
 import chooseCourse from '../components/student/stu_choosecourse'
 import recordgrade from '../components/teacher/recordgrade'
-import test from '../components/test'
-
+import Attention from '../components/receive'
+import contentDetail from '../components/contentdetail'
+import addNotice from '../components/administrator/addNotice'
 
 
 Vue.use(Router)
@@ -26,6 +27,11 @@ export default new Router({
       name: 'administrator',
       component: administrator,
       children: [
+        {
+          path:'addNotice',
+          name:'addNotice',
+          component:addNotice,
+        },
         {
           path:'changPassword',
           name:'changPassword',
@@ -66,9 +72,14 @@ export default new Router({
       component: student,
       children:[
         {
-          path:'test',
-          name:'test',
-          component:test,
+          path:'attention',
+          name:'attention',
+          component:Attention,
+        },
+        {
+          path:'contentdetail',
+          name:'contentdetail',
+          component:contentDetail,
         },
         {
           path:'chooseCourse',
@@ -93,6 +104,16 @@ export default new Router({
       name:'teacher',
       component:teacher,
       children:[
+        {
+          path:'attention',
+          name:'attention',
+          component:Attention,
+        },
+        {
+          path:'contentdetail',
+          name:'contentdetail',
+          component:contentDetail,
+        },
         {
           path:'recordgrade',
           name:'recordegrade',

@@ -20,7 +20,7 @@
                     </li>
                     <li>
                         <img src="../../assets/img/icon_attention.png" alt="">
-                        <router-link to="#">
+                        <router-link to="/teacher/attention">
                             <input type="button" value="我需留意" class="menu-item">
                         </router-link>
                     </li>
@@ -51,7 +51,7 @@
                         <canvas id="left_circular" class="circular"></canvas>
                         <canvas id="right_circular" class="circular"></canvas>
                         <div class="operation">
-                            <router-view v-bind:getUser="teacher"></router-view>
+                            <router-view v-bind:getUser="teacher" v-on:show="showDetail" v-bind:getDetail="message"></router-view>
                         </div>
                     </div>
                 </div>
@@ -71,10 +71,19 @@ export default {
                 username: this.getUser.username,
                 account:this.getUser.user_account,
                 role:this.getUser.role,
+            },
+            message:{
+                title: "",
+                time: "",
+                content: "",
+                role:""
             }
         }
     },
     methods:{
+        showDetail(e){
+            this.message = e;
+        },
         logout(){
             this.$emit("Logout",false);
             this.$router.push('/');           

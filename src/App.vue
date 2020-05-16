@@ -1,13 +1,9 @@
 <template>
   <div id="app">
-    <div v-if="!isLogin">
-        <login_header ></login_header>
-        <login_content v-on:Login="getLoginPage"></login_content>
-    </div>
-    <div v-if="isLogin">
-        <!-- 绑定getUser属性，使得渲染出来的组件可以使用父组件的user值 -->
-        <router-view v-bind:getUser="user" v-on:Logout="logout"></router-view>
-    </div> 
+      <login_header v-if="!isLogin"></login_header>
+      <login_content v-on:Login="getLoginPage" v-if="!isLogin"></login_content>
+      <!-- 绑定getUser属性，使得渲染出来的组件可以使用父组件的user值 -->
+      <router-view v-if="isLogin" v-bind:getUser="user" v-on:Logout="logout"></router-view>
   </div>
 </template>
 

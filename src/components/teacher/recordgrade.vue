@@ -194,20 +194,21 @@ export default {
   methods: {
     change(e){
       this.$forceUpdate();
-      console.log(e);
+      // console.log(e);
     },
     submit(){
       console.log(this.record);
       var i = 0;
       for(; i< this.record.length; i++){
-        this.record[i].grade = this.record[i].normalgrade*0.2 + this.record[i].middlegrade*0.3+this.record[i].finalgrade*0.5;
+        var grade = this.record[i].normalgrade*0.2 + this.record[i].middlegrade*0.3+this.record[i].finalgrade*0.5 ;
+        this.record[i].grade = grade.toFixed(2);
         this.record[i].cname = this.course;
         delete this.record[i].normalgrade;
         delete this.record[i].middlegrade;
         delete this.record[i].finalgrade;
         delete this.record[i].sname;
       }
-      //  console.log(this.record);
+       console.log(this.record);
       this.$axios.post("/teacher/updateGrade",this.record)
       .then(res => {
         if(res.data.state){
@@ -220,8 +221,6 @@ export default {
       .catch(function(error){
         alert("发生错误！");
       })
-      // console.log(this.record);
-      
     },
  
     getData() {
@@ -242,15 +241,16 @@ export default {
                 alert("查询失败！");
               }else{
                 this.record = response.data.students;
-                this.totals = response.data.totals;
                 var i = 0;
-                for(; i<this.record.length; i++){
-                  this.record[i].middlegrade = "";
-                  this.record[i].normalgrade = "";
-                  this.record[i].finalgrade = "";
-                  this.record[i].grade = 0;
+                for (; i<response.data.students.length; i++){
+                  this.$set(this.record[i], 'middlegrade',"");
+                  this.$set(this.record[i], 'normalgrade',"");
+                  this.$set(this.record[i], 'finalgrade',"");
+                  this.$set(this.record[i], 'grade',"0");
                 }
-                console.log(this.record);
+                
+                this.totals = response.data.totals;
+                // console.log(this.record);
               }//if      
             }).catch(function(error){
               alert("发生错误！");
@@ -260,6 +260,7 @@ export default {
     //每页下拉显示数据
     handleSizeChange: function(size) {
       this.pagesize = size;
+      this.getData();
       /*console.log(this.pagesize) */
     },
     //点击第几页
