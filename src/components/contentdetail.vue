@@ -34,6 +34,8 @@ export default {
                 this.$router.push('/student/attention');
             }else if(this.message.role == 2){
                 this.$router.push('/teacher/attention');
+            }else if(this.message.role == 3){
+                this.$router.push('/administrator/notice');
             }
           
       },

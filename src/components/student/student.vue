@@ -38,7 +38,7 @@
                     </li>
                     <li>
                         <img src="../../assets/img/icon_right.png" alt="">
-                        <router-link to="#">
+                        <router-link to="/student/grade">
                             <input type="button" value="成绩" class="menu-item">
                         </router-link>
                     </li>

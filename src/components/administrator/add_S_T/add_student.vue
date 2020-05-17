@@ -1,6 +1,6 @@
 <template>
     <div class="addStudent">
-        <input type="button" value="添加" class="add color_green" @click="add">
+        <input type="button" value="添加" class="add-doc-student color_green" @click="add">
         <div class="separateLine color_green">添加结果(学生)</div>
             <table border="0" id="studentList" name="studentList"> 
                 <tr>
@@ -70,7 +70,12 @@ export default {
     },
     methods:{
         add(){
-           this.students.push({});
+            if(this.students.length < 10){
+                this.students.push({});
+            }else{
+                alert("请先提交数据！");
+            }
+           
         },
 
         submit(){
@@ -200,7 +205,7 @@ export default {
 }
 
 
-.add{
+.add-doc-student{
     margin-top: 40px;
     margin-left: 80%;
     width: 60px;

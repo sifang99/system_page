@@ -6,13 +6,12 @@
         </el-option>
     </el-select>
 
-  <el-table :data="selectgradeinfo.slice((currentPage-1)*pageSize,currentPage*pageSize)" style="width: 100%" :row-class-name="getgraderow"
-  border="true" highlight-current-row>
-    <el-table-column prop="term" label="学期" width="200" align="center" ></el-table-column>
-    <el-table-column prop="coursetype" label="课程类别" width="80" align="center"></el-table-column>
+  <el-table :data="selectgradeinfo" style="width: 100%" :row-class-name="getgraderow"
+   highlight-current-row>
+    <el-table-column prop="term" label="学期" width="300" align="center" ></el-table-column>
+    <el-table-column prop="type" label="课程类别" width="100" align="center"></el-table-column>
     <el-table-column prop="cno" label="课程编码" width="100" align="center"></el-table-column>
-    <el-table-column prop="cname" label="课程名" align="center" width="180"></el-table-column>
-    <el-table-column prop="teacher" label="授课教师" align="center" width="100"></el-table-column>
+    <el-table-column prop="cname" label="课程名" align="center" width="200"></el-table-column>
     <el-table-column prop="credit" label="课程学分" align="center" width="80"></el-table-column>
     <el-table-column prop="grade" label="成绩" align="center" ></el-table-column>
   </el-table>
@@ -22,7 +21,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
-        :page-sizes="[1, 3, 5, 8]"
+        :page-sizes="[4, 8,10]"
         :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="totalNum"
@@ -36,7 +35,54 @@
 <script>
 export default {
   name: 'stu-getgrade',
+  data () {
+    return {
+      gradeinfo: [],
+      // eslint-disable-next-line no-undef
+      // 简单实现select的选择功能
+      selectgradeinfo: [],
+      // 学期
+      terms: [{
+        value: '2017-2018学年第一学期',
+        label: '2017-2018学年第一学期'
+      }, {
+        value: '2017-2018学年第二学期',
+        label: '2017-2018学年第二学期'
+      }, {
+        value: '2018-2019学年第一学期',
+        label: '2018-2019学年第一学期'
+      }, {
+        value: '2018-2019学年第二学期',
+        label: '2018-2019学年第二学期'
+      }],
+      selectterm: '', //用于筛选数据
+      currentPage: 1, // 默认显示第一页
+      pageSize: 4, // 默认每页显示10条
+      totalNum: 0, // 总页数
+      student:{
+        account:this.getUser.account,
+        username:this.getUser.username,
+        role:this.getUser.role,
+      }
+    }
+  },
+  props:[
+    'getUser'
+  ],
   methods: {
+    getData(){
+      this.$axios.get('/sc/gradefindByPage',{params:{"page":this.currentPage, "rows":this.pageSize,"sno":this.student.account}})
+      .then(res => {
+        if(res.data.totals != 0){
+          this.gradeinfo = res.data.sc;
+          this.totalNum = res.data.totals;
+        }
+        console.log(res);
+      })
+      .catch(function(error){
+        alert("发生错误！");
+      })
+    },
     getgraderow ({row, rowIndex}) {
       // 如果本门成绩不及格则高亮显示
       if (row.grade < 60) {
@@ -50,60 +96,20 @@ export default {
     },
     // 分页处理
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`)
+      // console.log(`每页 ${val} 条`)
       this.pageSize = val // 动态改变
+      this.getData();
     },
 
     handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
+      // console.log(`当前页: ${val}`)
       this.currentPage = val // 动态改变
+      this.getData();
     }
   },
-  data () {
-    return {
-      gradeinfo: [{
-        term: '2019—2020学年第一学期',
-        coursetype: '选修课',
-        cno: '001',
-        cname: '数据库',
-        teacher: 'ddd',
-        credit: 4,
-        grade: 90
-      }, {
-        term: '2019—2020学年第二学期',
-        coursetype: '选修课',
-        cno: '001',
-        cname: '数据库',
-        teacher: 'ddd',
-        credit: 4,
-        grade: 50
-      }],
-      // eslint-disable-next-line no-undef
-      // 简单实现select的选择功能
-      selectgradeinfo: [],
-      // 学期
-      terms: [{
-        value: '2019—2020学年第一学期',
-        label: '2019—2020学年第一学期'
-      }, {
-        value: '2019—2020学年第二学期',
-        label: '2019—2020学年第二学期'
-      }, {
-        value: '2018—2019学年第一学期',
-        label: '2018—2019学年第一学期'
-      }, {
-        value: '2018—2019学年第二学期',
-        label: '2018—2019学年第二学期'
-      }],
-      selectterm: '',
-      currentPage: 1, // 默认显示第一页
-      pageSize: 1, // 默认每页显示10条
-      totalNum: 1000 // 总页数
-    }
-  },
+  
   created () {
-    this.totalNum = this.gradeinfo.length
-    this.selectgradeinfo = this.gradeinfo
+    this.getData();
   }
 }
 </script>

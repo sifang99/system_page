@@ -1,10 +1,10 @@
 <template>
     <div class="doc-box">
         <router-link to="/administrator/addDocument/student" >
-            <input type="button" value="添加学生" class="btn color_green">
+            <input type="button" value="添加学生" class="add-doc-btn color_green">
         </router-link>
         <router-link to="/administrator/addDocument/teacher" >
-            <input type="button" value="添加教师" class="btn color_green">
+            <input type="button" value="添加教师" class="add-doc-btn color_green">
         </router-link>
 
         <!-- <div class="line color_green"></div> -->
@@ -21,7 +21,7 @@
     border: 2px solid #CCCCCC;
 }
 
-.btn{
+.add-doc-btn{
     margin-top: 20px;
     margin-left: 60px;
     width: 40%;

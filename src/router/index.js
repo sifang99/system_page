@@ -11,11 +11,14 @@ import teacher from '../components/teacher/teacher'
 import teacherInfo from '../components/teacher/thr_info'
 import studentInfo from '../components/student/stu_info'
 import changePassword from '../components/change_password'
-import chooseCourse from '../components/student/stu_choosecourse'
+import chooseCourse from '../components/student/choosecourse/stu_choosecourse'
 import recordgrade from '../components/teacher/recordgrade'
 import Attention from '../components/receive'
 import contentDetail from '../components/contentdetail'
 import addNotice from '../components/administrator/addNotice'
+import notice from '../components/administrator/Notice'
+import getGrade from '../components/student/getgrade/stu_getGrade'
+import schedule from '../components/administrator/addSchedule'
 
 
 Vue.use(Router)
@@ -27,6 +30,21 @@ export default new Router({
       name: 'administrator',
       component: administrator,
       children: [
+        {
+          path:'addSchedule',
+          name:'addSchedule',
+          component:schedule,
+        },
+        {
+          path:'contentdetail',
+          name:'contentdetail',
+          component:contentDetail,
+        },
+        {
+          path:'notice',
+          name:'notice',
+          component:notice,
+        },
         {
           path:'addNotice',
           name:'addNotice',
@@ -71,6 +89,11 @@ export default new Router({
       name:'student',
       component: student,
       children:[
+        {
+          path:'grade',
+          name:'grade',
+          component:getGrade,
+        },
         {
           path:'attention',
           name:'attention',

@@ -2,41 +2,27 @@
     <div class="course-bck">
         <p>发 布 选 课</p>
         <div class="course-line color_green"></div>
-        <input type="button" value="添加" class="add color_green" @click="add">
+
+
+        <input type="button" value="添加" class="add-course color_green" @click="add">
 
         <div class="separateLine color_green" >添加结果</div>
-            <table border="0" class="addForm">
-                <tr>
-                    <td> 序号</td>
-                    <td> 课程代码</td>
-                    <td> 课程名 </td>
-                    <td> 授课教师 </td>
-                    <td> 学分 </td>
-                    <td> 授课校区 </td>
-                    <td> 选课人数 </td>
-                </tr>
-                <tr v-for="(item,index) in courses" :key="index">
-                    <td> {{index+1}} </td>
-                    <td>
-                        <input v-model="item.cno"></input>
-                    </td>
-                    <td> 
-                        <input v-model="item.cname"></input>
-                    </td>
-                    <td>  
-                        <input v-model="item.tname"></input>
-                    </td>
-                    <td> 
-                        <input v-model="item.credit"></input>
-                    </td>
-                    <td> 
-                        <input v-model="item.place"></input>
-                    </td>
-                    <td>  
-                        <input v-model="item.max"></input>
-                    </td>
-                </tr>
-            </table>
+            <el-table :data="courses" style="width: 100%" >
+                <el-table-column type="index" label="序号" width="80" ></el-table-column>
+                <el-table-column label="课程代码" width="100" align="center">
+                    <template slot-scope="scope">
+                        <el-input v-model="scope.row.cno" @change="query(scope.$index)"></el-input>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="cname" label="课程名" width="200" align="center">
+                </el-table-column>
+                <el-table-column prop="tname" label="授课教师" width="100"></el-table-column>
+                <el-table-column prop="credit" label="学分" width="74"></el-table-column>
+                <el-table-column prop="place" label="授课校区" width="180"></el-table-column>
+                <el-table-column prop="max" label="选课人数" width="180"></el-table-column>
+                
+                
+            </el-table>
             <input type="button" name="" id="add_course_submit" value="提交" class="color_green" @click="submit">
     </div>
 </template>
@@ -47,11 +33,45 @@ export default {
     data(){
         return{
             courses:[],
+            grade:""
         }
     },
     methods:{
+        query(index){
+            
+            this.$axios.get('/optional/findTcByCno',{params:{"cno":this.courses[index].cno}})
+            .then(res => {
+                console.log(res);
+                if(res.data){
+                    // console.log(index);
+                    // console.log(this.courses[index]);
+                    this.courses[index].cname = res.data.cname;
+                    this.courses[index].tname = res.data.tname;
+                    this.courses[index].credit = res.data.credit;
+                    this.courses[index].place = res.data.place;
+                    this.courses[index].max = res.data.max;
+                    this.courses[index].grade = res.data.grade;
+                    this.courses[index].term = res.data.term;
+                    this.courses[index].tc_id = res.data.tc_id;
+                }
+            })
+            .catch(function(error){
+                alert("发生错误！");
+            })
+        },
         add(){
-            this.courses.push({})
+            this.courses.push({
+                cno:"",
+                cname:"",
+                tname:"",
+                credit:"",
+                place:"",
+                max:"",
+                grade:"",
+                term:"",
+                tc_id:"",
+                number:0,
+            })
         },
         submit(){
             var i = 0;
@@ -80,7 +100,6 @@ export default {
 
 <style>
 @import "../../assets/css/color.css";
-
 .separateLine{
     margin-top: 10px;
     width: 100%;
@@ -129,12 +148,13 @@ export default {
     width: 100%;
 }
 
-.add{
-    margin-top: 40px;
-    margin-left: 80%;
+.add-course{
     width: 60px;
     height: 30px;
     color: white;
+    margin-top: 30px;
+    margin-left: 740px;
+    margin-bottom: 20px;
     border-radius: 7%;
     border-style: none;
 }

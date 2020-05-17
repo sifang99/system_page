@@ -1,7 +1,7 @@
 <template>
     <div class="addTeacher">
 
-        <input type="button" value="添加" class="add color_green" @click="add">
+        <input type="button" value="添加" class="add-doc-teacher color_green" @click="add">
 
         <div class="separateLine color_green">添加结果（教师）</div>
 
@@ -68,7 +68,11 @@ export default {
     },
     methods:{
         add(){
-            this.teachers.push({});
+            if(this.teachers.length < 10){
+                this.teachers.push({});
+            }else{
+                alert("请先提交数据！");
+            }
         },
         submit(){
 
@@ -179,7 +183,7 @@ export default {
     border-style: none;
 }
 
-.add{
+.add-doc-teacher{
     margin-top: 40px;
     margin-left: 80%;
     width: 60px;

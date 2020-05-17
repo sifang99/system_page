@@ -39,7 +39,7 @@ export default {
             this.$forceUpdate();
         },
         submit(){
-            
+            this.$router.push('/administrator/notice');
         }
 
     },

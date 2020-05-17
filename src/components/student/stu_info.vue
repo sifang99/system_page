@@ -1,8 +1,8 @@
 <template>
     <div class="student-info-box">
 
-        <button class="modification btn color_green" @click="Update">修改</button>
-        <button class="btn color_green" @click="Cancel">取消</button>
+        <button class="modification stu-btn color_green" @click="Update">修改</button>
+        <button class="stu-btn color_green" @click="Cancel">取消</button>
 
         <table border="0">
             <th colspan="2">
@@ -157,7 +157,7 @@ export default {
 
 <style>
 
-.btn{
+.stu-btn{
     width: 60px;
     height: 30px;
     border-radius: 7%;

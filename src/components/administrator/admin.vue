@@ -28,13 +28,13 @@
                     </li>
                     <li>
                         <img src="../../assets/img/icon_half.png" alt="">
-                        <router-link to="#">
+                        <router-link to="/administrator/addSchedule">
                             <input type="button" value="发布课表" class="menu-item">
                         </router-link>                  
                     </li>
                     <li>
                         <img src="../../assets/img/icon_attention.png" alt="">
-                        <router-link to="/administrator/addNotice">
+                        <router-link to="/administrator/notice">
                             <input type="button" value="发送通知" class="menu-item">
                         </router-link>                  
                     </li>

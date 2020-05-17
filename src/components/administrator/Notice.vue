@@ -1,16 +1,28 @@
 <template>
  <div class="clearfix">
-  <el-table :data="attention" style="width: 100%" :row-class-name="getReceiveAttention" >
-    <el-table-column  label="" width="80" >
-    </el-table-column>
-    <el-table-column type="index" label="序号" width="180" ></el-table-column>
-    <el-table-column label="发件人" width="180" align="center">admin</el-table-column>
+
+   <el-select v-model="role" class="choose-role" placeholder="请选择用户" @change="getNotice">
+     <el-option value="1" label="学生"> 学生 </el-option>
+     <el-option value="2" label="教师"> 教师 </el-option>
+   </el-select>
+
+   <el-button type="success" round class="btn-sty add-newNotice" @click="addNotice"> 添加 </el-button>
+
+  <el-table :data="attention" style="width: 100%" @selection-change="handleSelectionChange">
+    <el-table-column type="selection" label="" width="80" ></el-table-column>
+    <el-table-column type="index" label="序号" width="80" ></el-table-column>
+    <el-table-column label="发件人" width="100" align="center">admin</el-table-column>
     <el-table-column prop="title" label="主题" width="300" align="center">
     </el-table-column>
     <el-table-column prop="day" label="时间" width="180"></el-table-column>
     <el-table-column >
       <template slot-scope="scope">
         <a  @click="detail(scope.row.day,scope.row.title,scope.row.content)" > 点击查看 </a>
+      </template>
+    </el-table-column>
+    <el-table-column>
+      <template slot-scope="scope">
+        <el-button class="delete">点击删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -20,12 +32,14 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
-        :page-sizes="[1, 3, 5, 8]"
+        :page-sizes="[10, 20]"
         :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="totalNum"
         class="pagination">
     </el-pagination>
+
+  <el-button type="success" round class="btn-sty delete-notice">删除</el-button>
  </div>
 </template>
 
@@ -36,33 +50,31 @@ export default {
   data () {
     return {
       attention: [],
-      // checked: false
+      checked: null,
       currentPage: 1, // 默认显示第一页
-      pageSize: 1, // 默认每页显示1条
+      pageSize: 10, // 默认每页显示1条
       totalNum: 0, // 数据总条数
-      user:{
-        account:this.getUser.account,
-        username:this.getUser.username,
-        role:this.getUser.role,
-      }
+      role:"",
+      userRole:3,
     }
   },
-  props:[
-    'getUser'
-  ],
   methods: {
+    getNotice(){
+      this.getData();
+      // console.log(this.role);
+    },
+    addNotice(){
+        this.$router.push('/administrator/addNotice');
+    },
     detail(day,title,content){
 
-      if(this.user.role == 1){
-        this.$router.push("/student/contentdetail");
-      }else if(this.user.role == 2){
-        this.$router.push("/teacher/contentdetail");
-      }
+      this.$router.push("/administrator/contentdetail");
+
       var message = {
         time:day,
         title:title,
         content:content,
-        role:this.user.role,
+        role:3,
       }
       this.$emit('show',message);
       // console.log(message);
@@ -87,11 +99,12 @@ export default {
     },
 
     getData(){
-      this.$axios.get("notice/findByPage",{params:{"page":this.currentPage,"rows":this.pageSize,"account":this.user.account}})
+      this.$axios.get("notice/MfindByPage",{params:{"page":this.currentPage,"rows":this.pageSize,"role":this.role}})
       .then(res => {
         if(res.data.totals != 0){
           this.attention = res.data.notices;
           this.totalNum = res.data.totals;
+          console.log(res);
        }
       })
       .catch(function(error){
@@ -112,10 +125,34 @@ export default {
     /* border:1px solid black; */
   }
 
+  .choose-role{
+    margin-left: 80px;
+  }
+
   .el-table .success-row {
     background: #f0f9eb;
   }
+  .add-newNotice{
+    position: relative;
+    left: 53%;
+  }
+  .delete-notice{
+    position: relative;
+    left:83% ;
+  }
 
+  .delete{
+    width: 80px;
+    height: 30px;
+    text-align: center;
+    padding: 0%;
+  }
+
+  .btn-sty{
+    background-color: #2E8B57;
+    color: white;
+    border: 0;
+  }
   .pagination{
     position: relative;
     left: 25%;
