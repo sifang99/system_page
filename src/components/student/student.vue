@@ -32,7 +32,7 @@
                     </li>
                     <li>
                         <img src="../../assets/img/icon_people.jpg" alt="">
-                        <router-link to="#">
+                        <router-link to="/student/schedule">
                             <input type="button" value="行课" class="menu-item">
                         </router-link>
                     </li>

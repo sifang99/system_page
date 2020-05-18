@@ -26,7 +26,7 @@
                     </li>
                     <li>
                         <img src="../../assets/img/icon_people.jpg" alt="">
-                        <router-link to="#">
+                        <router-link to="/teacher/schedule">
                             <input type="button" value="查看课表" class="menu-item">
                         </router-link>
                     </li>

@@ -18,7 +18,8 @@ import contentDetail from '../components/contentdetail'
 import addNotice from '../components/administrator/addNotice'
 import notice from '../components/administrator/Notice'
 import getGrade from '../components/student/getgrade/stu_getGrade'
-import schedule from '../components/administrator/addSchedule'
+import addSchedule from '../components/administrator/addSchedule'
+import schedule from '../components/student/stu_courseplan'
 
 
 Vue.use(Router)
@@ -33,7 +34,7 @@ export default new Router({
         {
           path:'addSchedule',
           name:'addSchedule',
-          component:schedule,
+          component:addSchedule,
         },
         {
           path:'contentdetail',
@@ -90,6 +91,11 @@ export default new Router({
       component: student,
       children:[
         {
+          path:'schedule',
+          name:'schedule',
+          component:schedule,
+        },
+        {
           path:'grade',
           name:'grade',
           component:getGrade,
@@ -127,6 +133,11 @@ export default new Router({
       name:'teacher',
       component:teacher,
       children:[
+        {
+          path:'schedule',
+          name:'schedule',
+          component:schedule,
+        },
         {
           path:'attention',
           name:'attention',
