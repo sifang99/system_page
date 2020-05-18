@@ -122,7 +122,9 @@ export default {
     r_ctx.strokeStyle = '#2E8B57'
     r_ctx.stroke()
   },
-
+  created(){
+      this.$router.push('/teacher/attention');
+  }
 }
 </script>
 

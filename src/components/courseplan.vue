@@ -275,7 +275,6 @@ export default {
   }
 }
 </script>
-
 <style>
     .table-container {
         margin: 0 auto;
@@ -308,10 +307,12 @@ export default {
     #courseplan-body {
         background-color: #f6f7f8;
     }
-    #courseplan-body>th>td {
-        color: #677998;
+    #courseplan-body>tr>td {
+        color: black;
+        text-align: center;
+        border: 1px solid #333;
     }
-    .courseplantable> th,td {
+    .courseplantable> th {
         width: 12%;
         font-size: 12px;
         text-align: center;

@@ -19,7 +19,7 @@ import addNotice from '../components/administrator/addNotice'
 import notice from '../components/administrator/Notice'
 import getGrade from '../components/student/getgrade/stu_getGrade'
 import addSchedule from '../components/administrator/addSchedule'
-import schedule from '../components/student/stu_courseplan'
+import schedule from '../components/courseplan'
 
 
 Vue.use(Router)

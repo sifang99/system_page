@@ -123,6 +123,9 @@ export default {
         r_ctx.fill();
         r_ctx.strokeStyle = "#2E8B57";
         r_ctx.stroke();
+    },
+    created(){
+        this.$router.push("/administrator/adminInfo");
     }
 }
 </script>

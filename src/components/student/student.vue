@@ -129,6 +129,10 @@ export default {
     r_ctx.stroke()
   },
 
+  created(){
+      this.$router.push('/student/attention');
+  }
+
 }
 </script>
 
