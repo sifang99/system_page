@@ -115,21 +115,21 @@ export default {
             // }
             console.log(this.teachers);
             var teachers = JSON.stringify(this.teachers);
-            console.log(this.teachers);
+            console.log(teachers);
             // //发送http请求
-            this.$axios.post("/teacher/insertTeacher",teachers)
-            .then(res => {
-                console.log(res);
-                if(res.data.state){
-                    alert("添加成功！");
-                    this.teachers.splice(0,this.teachers.length);
-                }else{
-                    alert("添加失败！");
-                }
-            })
-            .catch(function (error){
-                alert("添加失败！");
-            })
+            // this.$axios.post("/teacher/insertTeacher",teachers)
+            // .then(res => {
+            //     console.log(res);
+            //     if(res.data.state){
+            //         alert("添加成功！");
+            //         this.teachers.splice(0,this.teachers.length);
+            //     }else{
+            //         alert("添加失败！");
+            //     }
+            // })
+            // .catch(function (error){
+            //     alert("添加失败！");
+            // })
         }
     },
 

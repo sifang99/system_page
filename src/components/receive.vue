@@ -10,7 +10,7 @@
     <el-table-column prop="day" label="时间" width="180"></el-table-column>
     <el-table-column >
       <template slot-scope="scope">
-        <a  @click="detail(scope.row.day,scope.row.title,scope.row.content)" > 点击查看 </a>
+        <a  @click="detail(scope.row.snum)" > 点击查看 </a>
       </template>
     </el-table-column>
   </el-table>
@@ -51,7 +51,7 @@ export default {
     'getUser'
   ],
   methods: {
-    detail(day,title,content){
+    detail(snum){
 
       if(this.user.role == 1){
         this.$router.push("/student/contentdetail");
@@ -59,9 +59,7 @@ export default {
         this.$router.push("/teacher/contentdetail");
       }
       var message = {
-        time:day,
-        title:title,
-        content:content,
+        snum:snum,
         role:this.user.role,
       }
       this.$emit('show',message);

@@ -74,15 +74,13 @@ export default {
     data(){
         return {
             student:{
-                account:this.getUser.user_account,
+                account:this.getUser.account,
                 username:this.getUser.username,
                 role:this.getUser.role,
             },
             message:{
-                title: "",
-                time: "",
-                content: "",
-                role:""
+                snum:"",
+                role:this.student.role,
             }
         }
     },
@@ -129,6 +127,7 @@ export default {
   },
 
   created(){
+      console.log(this.student);
       this.$router.push('/student/attention');
   }
 

@@ -17,12 +17,12 @@
     <el-table-column prop="day" label="时间" width="180"></el-table-column>
     <el-table-column >
       <template slot-scope="scope">
-        <a  @click="detail(scope.row.day,scope.row.title,scope.row.content)" > 点击查看 </a>
+        <a  @click="detail(scope.snum)" > 点击查看 </a>
       </template>
     </el-table-column>
     <el-table-column>
       <template slot-scope="scope">
-        <el-button class="delete">点击删除</el-button>
+        <el-button class="delete-btn" @click="delNotice(scope.$index)">点击删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -39,7 +39,7 @@
         class="pagination">
     </el-pagination>
 
-  <el-button type="success" round class="btn-sty delete-notice">删除</el-button>
+  <el-button type="success" round class="btn-sty delete-notice" @click="delAll">删除</el-button>
  </div>
 </template>
 
@@ -56,9 +56,67 @@ export default {
       totalNum: 0, // 数据总条数
       role:"1",
       userRole:3,
+      delAttentions:[],//选中要删除的通知集合
     }
   },
   methods: {
+    //批量删除通知
+    delAll(){
+      this.$confirm('确定永远删除选中的所有文件吗？','提示',{
+        confirmButtonText:'确定',
+        cancelButtonText:'取消',
+        type:'warning'
+      }).then(() => {
+        var length = this.delAttentions.length;
+        var snum = [];
+        var i = 0;
+        for(; i < length; i++){
+          snum[i] = this.delAttentions[i].snum;
+        }
+        // console.log(snum);
+        this.$axios.post("/notice/delNotice",snum)
+        .then(res => {
+        if(res.data.state){
+          this.getData();
+        }else{
+          alert("删除失败！");
+        }
+        })
+        .catch(function(error){
+          alert("发生错误！");
+        })
+      })
+      .catch(function(error){
+        this.$message({
+          type:'info',
+          message:'已取消删除'
+        });
+      });
+    },
+
+    //单个删除通知
+    delNotice(index){
+      console.log(index);
+      console.log(this.attention[index]);
+      var snum = this.attention[index].snum;
+      snum = JSON.stringify([snum]);
+      this.$axios.post('/notice/delNotice',snum)
+      .then(res => {
+        if(res.data.state){
+          this.getData();
+        }else{
+          alert("删除失败！");
+        }
+      })
+      .catch(function(error){
+        alert("发生错误！");
+      })
+    },
+    handleSelectionChange(val){
+      this.delAttentions = val;
+      console.log(this.delAttentions);
+    },
+
     getNotice(){
       this.getData();
       // console.log(this.role);
@@ -66,14 +124,10 @@ export default {
     addNotice(){
         this.$router.push('/administrator/addNotice');
     },
-    detail(day,title,content){
-
+    detail(snum){
       this.$router.push("/administrator/contentdetail");
-
       var message = {
-        time:day,
-        title:title,
-        content:content,
+        snum:snum,
         role:3,
       }
       this.$emit('show',message);
@@ -127,6 +181,7 @@ export default {
 
   .choose-role{
     margin-left: 80px;
+    margin-bottom: 20px;
   }
 
   .el-table .success-row {
@@ -141,7 +196,7 @@ export default {
     left:83% ;
   }
 
-  .delete{
+  .delete-btn{
     width: 80px;
     height: 30px;
     text-align: center;

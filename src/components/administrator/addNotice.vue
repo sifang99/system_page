@@ -4,16 +4,16 @@
 
         <div class="message">
             
-            <label for="date">日期：</label><el-date-picker v-model="date"  name="date" class="common" @input="Update($event)"></el-date-picker>
+            <label for="date">日期：</label><el-date-picker v-model="message.day"  name="date" class="common" @input="Update($event)"></el-date-picker>
             <label for="role">发送对象:</label>
-            <el-select name="role" v-model="role" @input="Update($event)">
+            <el-select name="role" v-model="message.role" @input="Update($event)">
                 <el-option :value="1">学生</el-option>
                 <el-option :value="2">教师</el-option>
             </el-select>
             <br>
-            <label for="title">标题：</label><el-input v-model="title" class="notice-title common" type="text" name="title" @input="Update($event)"></el-input><br>
+            <label for="title">标题：</label><el-input v-model="message.title" class="notice-title common" type="text" name="title" @input="Update($event)"></el-input><br>
             <label class="mylabel" >内容：</label><br>
-            <el-input v-model="content" class="notice-content" type="textarea" rows="10" maxlength="200" @input="Update($event)"></el-input>
+            <el-input v-model="message.content" class="notice-content" type="textarea" rows="10" maxlength="200" @input="Update($event)"></el-input>
 
             <button class="notice-button" @click="submit">发送</button>
             
@@ -25,12 +25,14 @@
 <script>
 export default {
     name:'addNotice',
-    date(){
+    data(){
         return{
-            date:"",
-            role:"",
-            title:"",
-            content:"",
+            message:{
+                day:"",
+                role:"",
+                title:"",
+                content:"",
+            }
 
         }
     },
@@ -39,14 +41,42 @@ export default {
             this.$forceUpdate();
         },
         submit(){
-            this.$router.push('/administrator/notice');
+            if(this.message.day == ""){
+                alert("请输入时间！");
+                return ;
+            }
+            if(this.message.role == ""){
+                alert("请选择发送对象");
+                return ;
+            }
+            if(this.message.title == ""){
+                alert("请输入标题");
+                return;
+            }
+            if(this.message.content == ""){
+                alert("内容为空！");
+                return;
+            }
+
+            this.$axios.post("/notice/addNotice",this.message)
+            .then(res => {
+                console.log(res);
+                if(res.data.state){
+                    alert("添加成功");
+                    this.$router.push('/administrator/notice');
+                }
+            })
+            .catch(function(error){
+                alert("发生错误！");
+            })
+            
         }
 
     },
-    mounted(){
+    created(){
         var time = new Date();
 
-        this.date = time.getFullYear() + "-" + 
+        this.message.day = time.getFullYear() + "-" + 
         (time.getMonth() + 1 < 10 ? "0" + (time.getMonth()+1) : (time.getMonth() + 1)) + "-" + 
         time.getDate();
         this.$forceUpdate();

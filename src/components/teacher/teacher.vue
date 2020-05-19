@@ -73,9 +73,7 @@ export default {
                 role:this.getUser.role,
             },
             message:{
-                title: "",
-                time: "",
-                content: "",
+                snum:"",
                 role:""
             }
         }

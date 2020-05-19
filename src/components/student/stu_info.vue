@@ -104,6 +104,7 @@ export default {
         'getUser'
     ],
   created () {
+    //   console.log(this.student);
       this.$axios.get("/student/findBySno",{params: {sno: this.student.sno}})
       .then(res => {
           console.log(res);
