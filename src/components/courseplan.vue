@@ -139,11 +139,16 @@ export default {
       if(this.user.role == 1){
           this.$axios.get("/student/findScheduleS",{params:{"sno":this.user.account,"term":this.selectterm}})
           .then(res => {
-            this.data = res.data;
-            this.initCourse();
-            this.initPlace();
-            this.getArray();
-            console.log(res.data);
+            if(res.data){
+              this.data = res.data;
+              this.initCourse();
+              this.initPlace();
+              this.getArray();
+            }else{
+              alert("没有数据！");
+            }
+            
+            console.log(res);
           })
           .catch(function(error){
             alert("发生错误！");
@@ -152,6 +157,7 @@ export default {
       {
           this.$axios.get("/teacher/findScheduleT",{params:{"tno":this.user.account,"term":this.selectterm}})
           .then(res => {
+
             this.data = res.data;
             this.initCourse();
             this.initPlace();
@@ -302,15 +308,21 @@ export default {
         background-color: #eaeef3;
         color: #333;
         font-weight: bold;
-        font-size: 15px;
+        font-size: 0.9em;
     }
     #courseplan-body {
         background-color: #f6f7f8;
+    }
+    #courseplan-body > tr{
+      padding: 0%;
+      line-height: 10px;
     }
     #courseplan-body>tr>td {
         color: black;
         text-align: center;
         border: 1px solid #333;
+        font-size: 0.7em;
+        padding: 0%;
     }
     .courseplantable> th {
         width: 12%;

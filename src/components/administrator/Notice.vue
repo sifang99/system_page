@@ -1,7 +1,7 @@
 <template>
  <div class="clearfix">
 
-   <el-select v-model="role" class="choose-role" placeholder="请选择用户" @change="getNotice">
+   <el-select v-model="role" class="choose-role" placeholder="学生" @change="getNotice">
      <el-option value="1" label="学生"> 学生 </el-option>
      <el-option value="2" label="教师"> 教师 </el-option>
    </el-select>
@@ -54,7 +54,7 @@ export default {
       currentPage: 1, // 默认显示第一页
       pageSize: 10, // 默认每页显示1条
       totalNum: 0, // 数据总条数
-      role:"",
+      role:"1",
       userRole:3,
     }
   },

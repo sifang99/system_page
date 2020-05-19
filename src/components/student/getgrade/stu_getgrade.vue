@@ -1,12 +1,12 @@
 <template>
  <div class="clearfix">
-    <el-select v-model="selectterm" placeholder="请选择学期" popper-class="terms" id="selectterm"
+    <!-- <el-select v-model="selectterm" placeholder="请选择学期" popper-class="terms" id="selectterm"
     @change="GetTermFilter($event)">
         <el-option v-for="item in terms" :key="item.value" :label="item.label" :value="item.value">
         </el-option>
-    </el-select>
+    </el-select> -->
 
-  <el-table :data="selectgradeinfo" style="width: 100%" :row-class-name="getgraderow"
+  <el-table :data="gradeinfo" style="width: 100%" :row-class-name="getgraderow"
    highlight-current-row>
     <el-table-column prop="term" label="学期" width="300" align="center" ></el-table-column>
     <el-table-column prop="type" label="课程类别" width="100" align="center"></el-table-column>
@@ -91,9 +91,10 @@ export default {
       return 'success-row'
     },
     // 简单实现选择器的选择功能 -学期
-    GetTermFilter (e) {
-      this.selectgradeinfo = this.gradeinfo.filter(item => item.term === this.selectterm)
-    },
+    // GetTermFilter (e) {
+    //   this.selectgradeinfo = this.gradeinfo.filter(item => item.term === this.selectterm)
+    //   this.totalNum = this.selectgradeinfo.length;
+    // },
     // 分页处理
     handleSizeChange (val) {
       // console.log(`每页 ${val} 条`)

@@ -20,12 +20,18 @@ import notice from '../components/administrator/Notice'
 import getGrade from '../components/student/getgrade/stu_getGrade'
 import addSchedule from '../components/administrator/addSchedule'
 import schedule from '../components/courseplan'
+import login from '../components/login/login_content'
 
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
+    {
+      path:'/login',
+      name:'login',
+      component:login,
+    },
     {
       path: '/administrator',
       name: 'administrator',

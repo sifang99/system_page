@@ -1,49 +1,37 @@
 <template>
   <div id="app">
-      <login_header v-if="!isLogin"></login_header>
-      <login_content v-on:Login="getLoginPage" v-if="!isLogin"></login_content>
-      <!-- 绑定getUser属性，使得渲染出来的组件可以使用父组件的user值 -->
-      <router-view v-if="isLogin" v-bind:getUser="user" v-on:Logout="logout"></router-view>
+      <router-view v-on:Login="getLoginPage" v-bind:getUser="user" v-on:Logout="logout"></router-view>
   </div>
 </template>
 
 <script>
-import login_header from './components/login/login_header'
-import login_content from './components/login/login_content'
-
-
 export default {
   name: 'App',
   data(){
     return {
-      isLogin: false,
-       user:null,
+      user:null,
     }
   },
   methods:{
     logout(value){
-      this.isLogin = value;
+      this.$router.push('/login');
     },
     getLoginPage(user){
       if(user!=null){
-        // console.log(user);
         this.user = user;
-        this.isLogin = true;
-      }
-
-      if(user.role == '3'){
-        this.$router.push('/administrator');
-      }else if(user.role == '2'){
-        this.$router.push('/teacher');
-      }else if(user.role == '1'){
-        this.$router.push('/student');
-      }
-                   
+        console.log(this.user);
+        if(user.role == '3'){
+          this.$router.push('/administrator');
+        }else if(user.role == '2'){
+          this.$router.push('/teacher');
+        }else if(user.role == '1'){
+          this.$router.push('/student');
+        }
+      }            
     }
   },
-  components:{
-    login_content,
-    login_header,
+  created(){
+    this.$router.push("/login");
   }
 }
 </script>

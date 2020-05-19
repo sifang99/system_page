@@ -83,14 +83,13 @@ export default {
             admin: {
                 username: this.getUser.username,
                 role: this.getUser.role,
-                account: this.getUser.user_account
+                account: this.getUser.account
             },
         }
     },
     methods:{
         logout(){
-            this.$emit("Logout",false);
-            this.$router.push('/');           
+            this.$emit("Logout",false);           
         }
     },
     // 从APP组件中获取getUser传递过来的值user

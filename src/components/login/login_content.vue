@@ -1,4 +1,9 @@
 <template>
+    <div>
+        <div id="header">
+        <img src="../../assets/img/logo.jpg" class="logo">
+        <p class="title">某高校教学管理系统</p>
+    </div>
     <div id="login-content">
         <div class="login_background color_darkgray">
             <canvas id="left_circular" class="circular"></canvas>
@@ -22,6 +27,7 @@
             </div>
             
         </div>
+    </div>
     </div>
 </template>
 
@@ -67,17 +73,11 @@ export default {
                 }
                 
                 this.$axios.post("/user/login",this.user).then((response) => {
-
-                    console.log(response.data);
-                    console.log(response.token);
+                    console.log(response);
                     if(response.data.state){
-                        
-                        if(this.rememberPassword){
-
-                        }
-
-
-                        this.$emit("Login",response.data);
+                        this.user.role = response.data.role;
+                        this.user.username = response.data.username;
+                        this.$emit("Login",this.user);
                     }else{
                         alert("登陆失败！");
                     }

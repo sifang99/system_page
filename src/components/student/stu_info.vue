@@ -71,7 +71,7 @@
                 </td>
             </tr>
         </table>
-        <button v-show="isUpdate" class="submit btn color_green" @click="submit">提交</button>
+        <button v-show="isUpdate" class="submit stu-btn color_green" @click="submit">提交</button>
     </div>
 </template>
 

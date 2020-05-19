@@ -21,6 +21,7 @@
     </div>
 </template>
 <script>
+import qs from 'qs'
 export default {
   name: 'change-password',
   data () {
@@ -34,6 +35,12 @@ export default {
       oldpwd: "",
       newpwd: "",
       repwd: "",
+      p:{
+        account:this.getUser.account,
+        oldpassword:"",
+        newpassword:"",
+        conpassword:""
+      }
     }
   },
   props:[
@@ -68,16 +75,25 @@ export default {
       //通过登录接口，验证原密码是否正确
       this.$axios.post("/user/login",this.user)
       .then(res => {
-        console.log(res);
+        // console.log(res);
 
         if(!res.data.state){
           alert("原密码错误！");          
         }
         else{
-          this.user.password = this.newpwd;
-          this.$axios.post("/user/changePassword",this.user)
+          // console.log(this.p);
+          var s = {
+            account:this.user.account,
+            oldpassword:this.oldpwd,
+            newpassword:this.newpwd,
+            conpassword:this.repwd
+          };
+          s = qs.stringify(s);
+          console.log(s);
+
+          this.$axios.post("/user/changePassword",s)
           .then(res => {
-            console.log(res);
+            // console.log(res);
           if(res.data.state){
             alert("修改成功！");
             this.oldpwd="";

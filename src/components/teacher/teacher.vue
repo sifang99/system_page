@@ -2,13 +2,13 @@
 
     <div id="teacher">
         <div id="header">
-        <img src="../../assets/img/logo.jpg" class="logo">
-        <p class="title">某高校教学管理系统</p>
-        <input type="button" class="logout" value="退出登录" @click="logout">
-        <p class="user_role">角色： 教师</p>
-        <p class="user_name">用户：{{teacher.username}}</p>
-        <img src="../../assets/img/user_logo.png" class="user_logo">
-    </div>
+            <img src="../../assets/img/logo.jpg" class="logo">
+            <p class="title">某高校教学管理系统</p>
+            <input type="button" class="logout" value="退出登录" @click="logout">
+            <p class="user_role">角色： 教师</p>
+            <p class="user_name">用户：{{teacher.username}}</p>
+            <img src="../../assets/img/user_logo.png" class="user_logo">
+        </div>
         <div id="content">
             <div class="left-bar  color_darkgray">
                 <ul>
@@ -69,7 +69,7 @@ export default {
         return {
             teacher:{
                 username: this.getUser.username,
-                account:this.getUser.user_account,
+                account:this.getUser.account,
                 role:this.getUser.role,
             },
             message:{
@@ -85,8 +85,7 @@ export default {
             this.message = e;
         },
         logout(){
-            this.$emit("Logout",false);
-            this.$router.push('/');           
+            this.$emit("Logout",false);        
         }
     },
     props:[

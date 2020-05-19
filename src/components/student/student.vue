@@ -94,8 +94,7 @@ export default {
             this.message = e;
         },
         logout(){
-            this.$emit("Logout",false);
-            this.$router.push('/');           
+            this.$emit("Logout",false);         
         }
     },
   mounted () {
