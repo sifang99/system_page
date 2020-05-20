@@ -1,12 +1,12 @@
 <template>
     <div id="content-box">
         <div id="content-title">
-            <h3 id="title">{{notice.title}}</h3>
-            <el-divider content-position="right" id="date">{{notice.day}}</el-divider>
+            <h3 id="title">{{message.title}}</h3>
+            <el-divider content-position="right" id="date">{{message.day}}</el-divider>
             <!-- <p id="date">2020.5.14</p> -->
         </div>
         <div id="content-wrapper">
-            <p id="attention_content">{{notice.content}}</p>
+            <p id="attention_content">{{message.content}}</p>
         </div>
         <div>
             <button id="btn-return" @click="back">返回</button>
@@ -20,14 +20,11 @@ export default {
   data () {
     return {
         message:{
-            snum:this.getDetail.snum,
-            role:this.getDetail.role
-        },
-        notice:{
-            title:"",
-            day:"",
-            content:"",
-        } 
+            title:this.getDetail.title,
+            role:this.getDetail.role,
+            day:this.getDetail.day,
+            content:this.getDetail.content,
+        }, 
     }
   },
   methods: {
@@ -48,13 +45,6 @@ export default {
       'getDetail'
   ],
   created(){
-      this.$axios.get('/notice/findConBySnum',this.message.snum)
-      .then(res => {
-          
-      })
-      .catch(function(error){
-          alert("发生错误！");
-      })
   }
 }
 </script>

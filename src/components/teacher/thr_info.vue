@@ -105,14 +105,22 @@ export default {
             this.isUpdate = false;
             if(this.teacherInfo.sex == "女"){
                 this.teacherInfo.sex = 0;
-            }else{
+            }else if(this.teacherInfo.sex == "男"){
                 this.teacherInfo.sex = 1;
+            }else{
+                alert("请输入正确的数据格式！");
+                return;
             }
 
             this.$axios.post("/teacher/update",this.teacherInfo)
             .then(res => {
                 if(res.data.state){
                     alert("修改成功！");
+                    if(this.teacherInfo.sex == 0){
+                        this.teacherInfo.sex = '女';
+                    }else{
+                        this.teacherInfo.sex = '男';
+                    }
                 }else{
                     alert("修改失败！");
                 }

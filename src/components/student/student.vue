@@ -78,10 +78,7 @@ export default {
                 username:this.getUser.username,
                 role:this.getUser.role,
             },
-            message:{
-                snum:"",
-                role:this.student.role,
-            }
+            message:""
         }
     },
     props:[
@@ -92,7 +89,7 @@ export default {
             this.message = e;
         },
         logout(){
-            this.$emit("Logout",false);         
+            this.$emit("Logout",false);       
         }
     },
   mounted () {

@@ -88,9 +88,7 @@ export default {
             newpassword:this.newpwd,
             conpassword:this.repwd
           };
-          s = qs.stringify(s);
-          console.log(s);
-
+          s = JSON.stringify(s);
           this.$axios.post("/user/changePassword",s)
           .then(res => {
             // console.log(res);
@@ -100,7 +98,7 @@ export default {
             this.newpwd="";
             this.repwd="";
           }else{
-            alert("修改失败！");
+            alert(res.data.msg);
           }
           })
           .catch(function (error){

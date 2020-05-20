@@ -71,11 +71,12 @@ export default {
   ],
   methods: {
     getData(){
-      this.$axios.get('/sc/gradefindByPage',{params:{"page":this.currentPage, "rows":this.pageSize,"sno":this.student.account}})
+      this.$axios.get('/student/gradefindByPage',{params:{"page":this.currentPage, "rows":this.pageSize,"sno":this.student.account}})
       .then(res => {
         if(res.data.totals != 0){
           this.gradeinfo = res.data.sc;
           this.totalNum = res.data.totals;
+          
         }
         console.log(res);
       })

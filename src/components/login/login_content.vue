@@ -83,7 +83,7 @@ export default {
                     }
                     
                     }).catch(function (error){
-                        console.log("TAG","错误");        
+                        alert("发生错误！");        
                     });
                  
             },

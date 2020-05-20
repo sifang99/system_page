@@ -46,7 +46,7 @@
                     </li>
                     <li>
                         <img src="../../assets/img/icon_people.jpg" alt="">
-                        <router-link to="#">
+                        <router-link to="/administrator/logoutUser">
                             <input type="button" value="注销教师/学生账号" class="menu-item">
                         </router-link>
                     </li>
@@ -65,7 +65,7 @@
                         <canvas id="left_circular" class="circular"></canvas>
                         <canvas id="right_circular" class="circular"></canvas>     
                         <div class="operation">
-                            <router-view v-bind:getUser="admin" ></router-view>
+                            <router-view v-bind:getUser="admin" v-on:show="showDetail" v-bind:getDetail="message"></router-view>
                         </div>
                     </div>
                 </div>
@@ -85,11 +85,16 @@ export default {
                 role: this.getUser.role,
                 account: this.getUser.account
             },
+            message:""
         }
     },
     methods:{
         logout(){
             this.$emit("Logout",false);           
+        },
+        showDetail(e){
+            this.message = e;
+            this.$router.push("/administrator/contentdetail");
         }
     },
     // 从APP组件中获取getUser传递过来的值user

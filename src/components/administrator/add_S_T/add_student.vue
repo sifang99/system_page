@@ -123,7 +123,7 @@ export default {
             var students = JSON.stringify(this.students);
             // console.log(this.students);
             //发送http请求
-            this.$axios.post("student/insertStudent",students)
+            this.$axios.post("/manager/insertStudent",students)
             .then(res => {
                 console.log(res);
                 if(res.data.state){

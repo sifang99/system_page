@@ -21,6 +21,9 @@ import getGrade from '../components/student/getgrade/stu_getGrade'
 import addSchedule from '../components/administrator/addSchedule'
 import schedule from '../components/courseplan'
 import login from '../components/login/login_content'
+import logoutUser from '../components/administrator/logoutuser/logoutuser'
+import logoutTeacher from '../components/administrator/logoutuser/logout_teacher'
+import logoutStudent from '../components/administrator/logoutuser/logout_student'
 
 
 Vue.use(Router)
@@ -37,6 +40,22 @@ export default new Router({
       name: 'administrator',
       component: administrator,
       children: [
+        {
+          path:'logoutUser',
+          name:'logoutUser',
+          component:logoutUser,
+          children:[
+            {
+              path:'teacher',
+              name:'logoutteacher',
+              component:logoutTeacher,
+            },{
+              path:'student',
+              name:'logoutstudent',
+              component:logoutStudent,
+            }
+          ]
+        },
         {
           path:'addSchedule',
           name:'addSchedule',

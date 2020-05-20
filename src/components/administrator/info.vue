@@ -102,6 +102,7 @@ export default {
                     if(this.info.msex == '1'){
                         this.info.msex = '男';
                      }
+                     this.isUpdate = true;
                 }else{
                     alert("修改失败！");
                 }
@@ -109,7 +110,6 @@ export default {
             .catch(function (error){
                 alert("发生错误！");
             })
-            this.isUpdate = true;
         }
     },
     props:[

@@ -2,8 +2,8 @@
  <div class="clearfix">
 
    <el-select v-model="role" class="choose-role" placeholder="学生" @change="getNotice">
-     <el-option value="1" label="学生"> 学生 </el-option>
-     <el-option value="2" label="教师"> 教师 </el-option>
+     <el-option label="学生" :value="1"> </el-option>
+     <el-option label="教师" :value="2"> </el-option>
    </el-select>
 
    <el-button type="success" round class="btn-sty add-newNotice" @click="addNotice"> 添加 </el-button>
@@ -17,7 +17,7 @@
     <el-table-column prop="day" label="时间" width="180"></el-table-column>
     <el-table-column >
       <template slot-scope="scope">
-        <a  @click="detail(scope.snum)" > 点击查看 </a>
+        <a  @click="detail(scope.row.title, scope.row.day,scope.row.content)"> 点击查看 </a>
       </template>
     </el-table-column>
     <el-table-column>
@@ -54,7 +54,7 @@ export default {
       currentPage: 1, // 默认显示第一页
       pageSize: 10, // 默认每页显示1条
       totalNum: 0, // 数据总条数
-      role:"1",
+      role:1,
       userRole:3,
       delAttentions:[],//选中要删除的通知集合
     }
@@ -74,7 +74,7 @@ export default {
           snum[i] = this.delAttentions[i].snum;
         }
         // console.log(snum);
-        this.$axios.post("/notice/delNotice",snum)
+        this.$axios.post("/manager/delNotice",snum)
         .then(res => {
         if(res.data.state){
           this.getData();
@@ -100,7 +100,7 @@ export default {
       console.log(this.attention[index]);
       var snum = this.attention[index].snum;
       snum = JSON.stringify([snum]);
-      this.$axios.post('/notice/delNotice',snum)
+      this.$axios.post('/manager/delNotice',snum)
       .then(res => {
         if(res.data.state){
           this.getData();
@@ -124,10 +124,12 @@ export default {
     addNotice(){
         this.$router.push('/administrator/addNotice');
     },
-    detail(snum){
+    detail(title,day,content){
       this.$router.push("/administrator/contentdetail");
       var message = {
-        snum:snum,
+        title:title,
+        day:day,
+        content:content,
         role:3,
       }
       this.$emit('show',message);
@@ -153,7 +155,7 @@ export default {
     },
 
     getData(){
-      this.$axios.get("notice/MfindByPage",{params:{"page":this.currentPage,"rows":this.pageSize,"role":this.role}})
+      this.$axios.get("/manager/MfindByPage",{params:{"page":this.currentPage,"rows":this.pageSize,"role_id":this.role}})
       .then(res => {
         if(res.data.totals != 0){
           this.attention = res.data.notices;

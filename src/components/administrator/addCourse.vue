@@ -39,7 +39,7 @@ export default {
     methods:{
         query(index){
             
-            this.$axios.get('/optional/findTcByCno',{params:{"cno":this.courses[index].cno}})
+            this.$axios.get('/manager/findTcByCno',{params:{"cno":this.courses[index].cno}})
             .then(res => {
                 console.log(res);
                 if(res.data){
@@ -80,7 +80,7 @@ export default {
             }
             var courses = JSON.stringify(this.courses);
             console.log(courses);
-            this.$axios.post("/optional/addOptional",courses)
+            this.$axios.post("/manager/addOptional",courses)
             .then(res => {
                 console.log(res);
                 if(res.data.state){

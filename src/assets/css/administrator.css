@@ -6,16 +6,20 @@
 #header{
     width: 100%;
     height: 80px;
-    border-bottom: 3px solid #2E8B57;
+    border-bottom: 4px solid #2E8B57;
+    padding: 0px 0px 5px 0px;
+    margin-bottom: 1px;
 }
 
 .title{
-    font-size: 1.3em;
     float: left;
+    font-size: 1.3em;
     margin: 0em;
     position: relative;
     left:5%;
     top: 30px;
+    font-family: Helvetica Neue;
+    font-weight: bold;
 }
 
 .logo{
@@ -24,6 +28,7 @@
     height: 80px;
     position: relative;
     left: 3%;
+    margin-left: 20px;
 }
 
 .logout{
@@ -33,8 +38,6 @@
     color: #2E8B57;
     font-size: 1.1em;
     text-decoration-color: #2E8B57;
-    border: none;
-    background-color: white;
 }
 
 .user_role{
@@ -57,8 +60,8 @@
 #content{
     width: 100%;
     position: relative;
+    background-color: rgb(230, 230, 230);
 }
-
 .clear{
     clear: both;
 }
@@ -76,10 +79,12 @@
 
 /* 8888888888888888888888888888888888888888888888888888888888888888888 */
 .left-bar{
+    margin: 0px;
     width: 20%;
     float: left;
     left: 0;
-    height: 800px;
+    box-shadow: 6px 0px 12px 0 rgba(0, 0, 0, 0.1);
+    margin-right: -8px;
 }
 
 .left-bar > ul{
@@ -94,20 +99,17 @@
     margin-bottom: 20px;
     height: 50px;
     width: 103%;
-    border-top-right-radius: 7%;
-    border-bottom-right-radius: 7%;
+    border-top-right-radius: 10%;
+    border-bottom-right-radius: 10%;
 }
 
-.left-bar > ul >li{
-    background-color: #F5F5F5;
-    margin-bottom: 20px;
-    height: 50px;
-    width: 103%;
-    border-top-right-radius: 7%;
-    border-bottom-right-radius: 7%;
+.left-bar > ul >li:hover{
+    background-color: #c4c3c3;
 }
-
-
+.menu-item:hover{
+    background-color: #2E8B57;
+    color: white;
+}
 
 .menu-item {
     background-color: #fff;
@@ -115,35 +117,37 @@
     border-style: none;
     position: relative;
     bottom: 7px;
-    left: 20px;
+    left: 23px;
     height: 25px;
-    width: 180px;
-    border-radius: 8%;
+    width: 150px;
+    border-radius: 10%;
 }
 
 .left-bar > ul> li > img{
     margin-top: 10px;
-    margin-left: 20%;
+    margin-left: 25%;
 }
 
 
 /* 88888888888888888888888888888888888888888888888888888888888888888888 */
 .right-content{
     width: 79%;
+    height: 100%;
     position: relative;
     left: 15px;
     float: left;
+    background-color: white;
 }
 
 .top-bar{
     width: 100%;
     height: 80px;
+    box-shadow: -6px 2px 5px rgba(0, 0, 0, .12);
 }
 
 .content_bck{
     width: 90%;
     /* height: 600px; */
-    height: auto;
     margin: 0 auto;
     border-color:  #DCDCDC;
     border-radius: 2%;
@@ -155,7 +159,7 @@
 }
 
 .operation{
-    margin: 80px 20px;
+    margin: 50px 20px;
 }
 
 .content_white_bck{

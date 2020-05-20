@@ -64,12 +64,21 @@ export default {
       if(!this.choiced){
         alert("请选择课程！");
       }else{
-        this.$axios('/optional/update',{params:{"cno":this.chooseCourse[this.index].cno,"sno":this.student.account}})
+        console.log(this.chooseCourse[this.index].cno);
+        console.log(this.student.account);
+        this.$axios.get('/student/updateNumber',{params:{"cno":this.chooseCourse[this.index].cno,"sno":this.student.account}})
         .then(res => {
+          console.log(res);
           if(res.data.state){
             alert("选课成功！");
           }else{
-            alert("选课失败！");
+            if(res.data.isfull){
+              alert("选课人数已满！请重新选择");
+              return;
+            }
+            if(res.data.ischoose){
+              this.getNewCourse(res.data.msg);
+            }
           }
         })
         .catch(function(error){
@@ -79,6 +88,42 @@ export default {
         this.getData();
       }
     },
+
+
+    //如果学生之前已经选了课，询问是否重新选择
+    getNewCourse(message){
+      this.$confirm(message,'提示',{
+        confrimButtonText:"确定",
+        cancelButtonText:'取消',
+        type:"warning"
+      })
+      .then( () =>{
+        this.$axios.get("/student/StuChangeCourse",{params:{"cno":this.chooseCourse[this.index].cno,"sno":this.student.account}})
+        .then(res => {
+          if(res.data.state){
+            this.$message({
+              type:'info',
+              message:"选择成功！"
+            })
+          }else{
+            this.$message({
+              type:'info',
+              message:"选择失败！"
+            })
+          }
+        })
+        .catch(function(error){
+          alert("发生错误！");
+        })
+      } )
+      .catch(function(error){
+        this.$message({
+          type:'info',
+          message:"已取消操作"
+        })
+      })
+    },
+
     getChooseCourse ({row, rowIndex}) {
       // console.log(row);
       if (rowIndex % 2 === 0) {
@@ -86,6 +131,8 @@ export default {
       }
       return ''
     },
+
+    //选中一门课程后，将其他课程职位false
     choose(e, c){
       var i = 0;
       for(; i < this.chooseCourse.length; i++){
@@ -110,7 +157,7 @@ export default {
       this.getData();
     },
     getData(){
-      this.$axios('/optional/sfindByPage',{params:{"page":this.currentPage,"rows":this.pageSize}})
+      this.$axios('/student/sfindByPage',{params:{"page":this.currentPage,"rows":this.pageSize}})
       .then(res => {
         if(res.data.totals != 0){
           this.chooseCourse = res.data.optionals;

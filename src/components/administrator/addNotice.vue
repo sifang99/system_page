@@ -6,7 +6,7 @@
             
             <label for="date">日期：</label><el-date-picker v-model="message.day"  name="date" class="common" @input="Update($event)"></el-date-picker>
             <label for="role">发送对象:</label>
-            <el-select name="role" v-model="message.role" @input="Update($event)">
+            <el-select name="role" v-model="message.role_id" @input="Update($event)">
                 <el-option :value="1">学生</el-option>
                 <el-option :value="2">教师</el-option>
             </el-select>
@@ -29,7 +29,7 @@ export default {
         return{
             message:{
                 day:"",
-                role:"",
+                role_id:"",
                 title:"",
                 content:"",
             }
@@ -45,7 +45,7 @@ export default {
                 alert("请输入时间！");
                 return ;
             }
-            if(this.message.role == ""){
+            if(this.message.role_id == ""){
                 alert("请选择发送对象");
                 return ;
             }
@@ -58,12 +58,14 @@ export default {
                 return;
             }
 
-            this.$axios.post("/notice/addNotice",this.message)
+            this.$axios.post("/manager/addNotice",this.message)
             .then(res => {
                 console.log(res);
                 if(res.data.state){
                     alert("添加成功");
                     this.$router.push('/administrator/notice');
+                }else{
+                    alert("发送失败！");
                 }
             })
             .catch(function(error){

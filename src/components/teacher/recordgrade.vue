@@ -233,7 +233,7 @@ export default {
         }else if (this.cclass == ""){
           alert("请选择班级！");
         }else{
-            this.$axios.get('/student/findByPage',{params:{"page":this.currentPage,
+            this.$axios.get('/teacher/findByPage',{params:{"page":this.currentPage,
             "rows":this.pagesize, "cname":this.course, "grade":this.grade,"classno":this.cclass}})
             .then(response => {
               // console.log(response);
@@ -363,10 +363,10 @@ export default {
     }
 
     #btn-query{
-       background-color: #2E8B57;
+      background-color: #2E8B57;
       color: white;
       border: 0;
-      margin-left: 20px;
+      /* margin-left: 20px; */
     }
 
     #recordgrade-wrapper{
