@@ -2,58 +2,42 @@
     <div class="addStudent">
         <input type="button" value="添加" class="add-doc-student color_green" @click="add">
         <div class="separateLine color_green">添加结果(学生)</div>
-            <table border="0" id="studentList" name="studentList"> 
-                <tr>
-                    <td class="first-level"> 序号</td>
-                    <td class="second-level"> 学号</td>
-                    <td class="second-level"> 姓名 </td>
-                    <td class="first-level"> 性别 </td>
-                    <td class="second-level"> 出生日期 </td>
-                    <td class="second-level"> 政治面貌 </td>
-                    <td> 毕业学校 </td>
-                    <td> 学院 </td>
-                    <td class="second-level"> 专业 </td>
-                    <td class="second-level"> 年级 </td> 
-                    <td class="first-level"> 班级编号 </td>
-                </tr>
-                <tr v-for="(item,index) in students" :key="index">
-                    <td> {{index+1}} </td>
-                    <td> 
-                        <input v-model="item.sno"></input>
-                    </td>
-                    <td> 
-                        <input v-model="item.sname"></input>
-                    </td>
-                    <td>  
-                        <select id="" v-model="item.sex">
-                            <option value="0" selected>女</option>
-                            <option value="1">男</option>
-                        </select>
-                    </td>
-                    <td> 
-                        <input v-model="item.birth" id="birth" type="date" min="1990-01-01"></input>
-                    </td>
-                    <td> 
-                        <input v-model="item.pol"></input>
-                    </td>
-                    <td> 
-                        <input v-model="item.gs"></input>
-                    </td>
-                    <td> 
-                        <input v-model="item.dept"></input>
-                    </td>
-                    <td> 
-                        <input v-model="item.major"></input>
-                    </td>
-                    <td> 
-                        <input v-model="item.grade"></input>
-                    </td>
-                    <td> 
-                        <input v-model="item.classno"></input>
-                    </td>
-                </tr>
-
-            </table>    
+            <el-table class="schedule-table" :data="students" style="width: 100%" >
+                <el-table-column type="index" label="序号" width="60" ></el-table-column>
+                <el-table-column label="学号" width="135" align="center">
+                    <template slot-scope="scope">
+                        <el-input v-model="scope.row.sno" ></el-input>
+                    </template>
+                </el-table-column>
+                <el-table-column label="姓名" width="160" align="center">
+                    <template slot-scope="scope">
+                        <el-input v-model="scope.row.sname" ></el-input>
+                    </template>
+                </el-table-column>
+                <el-table-column label="性别" width="100" align="center">
+                    <template slot-scope="scope">
+                        <el-select v-model="scope.row.sex" placeholder="" >
+                            <el-option value="0" label="女">女</el-option>
+                            <el-option value="1" label="男">男</el-option>
+                        </el-select>
+                    </template>
+                </el-table-column>
+                <el-table-column label="出生日期" width="160" align="center">
+                    <template slot-scope="scope">
+                        <el-date-picker v-model="scope.row.birth" type="date" value-format="yyyy-MM-dd"></el-date-picker>
+                    </template>
+                </el-table-column>
+                <el-table-column label="政治面貌" width="160" align="center">
+                    <template slot-scope="scope">
+                        <el-input v-model="scope.row.pol" ></el-input>
+                    </template>
+                </el-table-column>
+                <el-table-column label="毕业学校" width="200" align="center">
+                    <template slot-scope="scope">
+                        <el-input v-model="scope.row.gs" ></el-input>
+                    </template>
+                </el-table-column>
+            </el-table>
             <button id="add_student_submit" class="color_green" @click="submit">提交</button>
 
     </div>
