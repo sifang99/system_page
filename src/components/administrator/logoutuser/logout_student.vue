@@ -127,6 +127,8 @@ export default {
  
     // 简单实现学生输入查询的功能 sno sname dept grade
     findStudent() {
+        this.studentlists.splice(0,this.studentlists.length);
+
       if(this.sno != ""){
             this.$axios.get('/manager/findstudentBySno',{params:{"sno":this.sno}})
             .then(res =>{

@@ -22,7 +22,10 @@
                 <td>
                     <label>性别：</label>
                     <label v-show="!isUpdate">{{info.msex}}</label>
-                    <input type="text" v-show="isUpdate" v-model="info.msex">
+                    <select class="man-select-sex" type="text" v-show="isUpdate" v-model="info.msex">
+                        <option value="0">女</option>
+                        <option value="1">男</option>
+                    </select>
                 </td>
                 <td>
                     <label>工作时间：</label>
@@ -87,11 +90,6 @@ export default {
             this.isUpdate = false;
         },
         submit(){
-            if(this.info.msex == "女"){
-                this.info.msex = 0;
-            }else{
-                this.info.msex = 1;
-            }
             this.$axios.post("/manager/update",this.info)
             .then(res => {
                 if(res.data.state){
@@ -187,6 +185,10 @@ export default {
     width: 50%;
     border-right: 2px solid #CCCCCC;
     border-bottom: 2px solid #CCCCCC;
+}
+
+.man-select-sex{
+    width: 150px;
 }
 
 </style>

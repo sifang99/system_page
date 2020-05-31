@@ -23,8 +23,10 @@
                 <td>
                     <label>性别：</label>
                     <label v-show="!isUpdate">{{teacherInfo.sex}}</label>
-                    <input type="text" v-show="isUpdate" v-model="teacherInfo.sex">
-  
+                    <select class="teacher-select-sex" type="text" v-show="isUpdate" v-model="teacherInfo.sex">
+                        <option value="0">女</option>
+                        <option value="1">男</option>
+                    </select>
                 </td>
                 <td>
                     <label>工作时间：</label>
@@ -103,15 +105,6 @@ export default {
         },
         submit(){
             this.isUpdate = false;
-            if(this.teacherInfo.sex == "女"){
-                this.teacherInfo.sex = 0;
-            }else if(this.teacherInfo.sex == "男"){
-                this.teacherInfo.sex = 1;
-            }else{
-                alert("请输入正确的数据格式！");
-                return;
-            }
-
             this.$axios.post("/teacher/update",this.teacherInfo)
             .then(res => {
                 if(res.data.state){
@@ -159,6 +152,10 @@ export default {
     height: 30px;
     border-radius: 7%;
     border-style: none;
+}
+
+.teacher-select-sex{
+    width: 150px;
 }
 
 .modification{

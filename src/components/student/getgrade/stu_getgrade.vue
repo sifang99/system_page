@@ -42,7 +42,8 @@ export default {
       // 简单实现select的选择功能
       selectgradeinfo: [],
       // 学期
-      terms: [{
+      terms: [
+        {
         value: '2017-2018学年第一学期',
         label: '2017-2018学年第一学期'
       }, {
@@ -54,7 +55,14 @@ export default {
       }, {
         value: '2018-2019学年第二学期',
         label: '2018-2019学年第二学期'
-      }],
+      },{
+        value: '2019-2020学年第一学期',
+        label: '2019-2020学年第一学期'
+      },{
+        value: '2019-2020学年第二学期',
+        label: '2019-2020学年第二学期'
+      }
+      ],
       selectterm: '', //用于筛选数据
       currentPage: 1, // 默认显示第一页
       pageSize: 4, // 默认每页显示10条

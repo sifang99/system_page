@@ -23,8 +23,10 @@
                 <td>
                     <label>性别：</label>
                     <label v-show="!isUpdate">{{studentInfo.sex}}</label>
-                    <input type="text" v-show="isUpdate" v-model="studentInfo.sex">
-  
+                    <select class="student-select-sex" type="text" v-show="isUpdate" v-model="studentInfo.sex">
+                        <option value="0">女</option>
+                        <option value="1">男</option>
+                    </select>
                 </td>
                 <td>
                     <label>毕业学校：</label>
@@ -122,11 +124,6 @@ export default {
   methods: {
     submit(){
         this.isUpdate = false;
-        if(this.studentInfo.sex == "女"){
-            this.studentInfo.sex = 0;
-        }else{
-            this.studentInfo = 1;
-        }
         this.$axios.post("/student/update",this.studentInfo)
         .then(res => {
             if(res.data.state){
@@ -171,6 +168,9 @@ export default {
     margin-bottom: 30px;
 }
 
+.student-select-sex{
+    width: 150px;
+}
 
 .submit{
     margin-left: 350px;

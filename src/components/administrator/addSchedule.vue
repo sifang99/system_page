@@ -17,58 +17,111 @@
 
         <input type="button" value="添加" class="add-schedule color_green" @click="add">
         <el-table class="schedule-table" :data="courses" style="width: 100%" >
-            <el-table-column type="index" label="序号" width="60" ></el-table-column>
-            <el-table-column label="课程代码" width="160" align="center">
-                <template slot-scope="scope">
-                    <el-input v-model="scope.row.cno" ></el-input>
-                </template>
+            <el-table-column type="index" label="序号" width="80" ></el-table-column>
+            <el-table-column prop="cno" label="课程代码" width="120" align="center">
             </el-table-column>
-            <el-table-column prop="tno" label="教师编号" width="160" align="center">
-                <template slot-scope="scope">
-                    <el-input v-model="scope.row.tno"></el-input>
-                </template>
+            <el-table-column prop="tno" label="教师编号" width="130" align="center">
             </el-table-column>
             <el-table-column prop="hour" label="学时" width="100">
-                <template slot-scope="scope">
-                    <el-input v-model="scope.row.hour"></el-input>
-                </template>
             </el-table-column>
-            <el-table-column prop="place" label="地点" width="220">
-                <template slot-scope="scope">
-                    <el-input v-model="scope.row.place"></el-input>
-                </template>
+            <el-table-column prop="place" label="地点" width="200">
             </el-table-column>
-            <el-table-column prop="time" label="时间" width="180" >
-                <template  slot-scope="scope">
-                    <el-button @click="showDialog(scope.$index)">添加时间</el-button>
-                </template>    
-            </el-table-column>    
+            <el-table-column prop="timeLabel" label="时间" width="220" >   
+            </el-table-column>  
         </el-table>
         <input type="button" name="" id="add_schedule_submit" value="提交" class="color_green" @click="submit">
 
-        <el-dialog :visible.sync="dialogVisible"  class="time-dialog">
-            <el-form>
-                <el-form-item label="请选择上课时间">
-                    <el-select v-model="tempDay">
-                        <el-option v-for="item in weekdays" :value="item.value" :label="item.label"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="请选择上课时间">
-                    <el-select v-model="tempItem">
-                        <el-option v-for="item in items" :value="item.value" :label="item.label"></el-option>
-                    </el-select>
-                </el-form-item>
+        <el-dialog :visible="dialogVisible">
+            <el-form :model="course" label-width="140px" label-position="right" ref="ruleForm" :rules="rules">
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item prop="cno" label="请输入课程号">
+                            <el-input v-model="course.cno" ></el-input>
+                        </el-form-item>
+                    </el-col>                   
+                    <el-col :span="12">
+                        <el-form-item prop="tno" label="请输入教师编号">
+                            <el-input v-model="course.tno"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item prop="hour" label="请输入课时">
+                            <el-input v-model="course.hour"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item prop="place" label="请输入上课地点">
+                            <el-input v-model="course.place"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-form-item  label="上课时间">
+                        <el-select v-model="tempDay[0]" placeholder="请选择星期">
+                            <el-option v-for="day in weekdays" :value="day.value" :label="day.label"></el-option>
+                        </el-select>
+                        <el-select v-model="tempItem[0]" placeholder="请选择时间">
+                            <el-option v-for="time in items" :value="time.value" :label="time.label"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-row>
+                <el-row>
+                    <el-form-item label="上课时间">
+                        <el-select v-model="tempDay[1]" placeholder="请选择星期">
+                            <el-option v-for="day in weekdays" :value="day.value" :label="day.label"></el-option>
+                        </el-select>
+                        <el-select v-model="tempItem[1]" placeholder="请选择时间">
+                            <el-option v-for="time in items" :value="time.value" :label="time.label"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-row>
+                <el-row>
+                    <el-form-item label="上课时间">
+                        <el-select v-model="tempDay[2]" placeholder="请选择星期">
+                            <el-option v-for="day in weekdays" :value="day.value" :label="day.label"></el-option>
+                        </el-select>
+                        <el-select v-model="tempItem[2]" placeholder="请选择时间">
+                            <el-option v-for="time in items" :value="time.value" :label="time.label"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-row>
+                <el-form-item>
+                    <el-button @click="cancel">取消</el-button>
+                    <el-button @click="addSchedule('ruleForm')" >确定</el-button>
+                </el-form-item> 
             </el-form>
-
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="cancel">取消</el-button>
-                <el-button @click="addTime">确定</el-button>
-            </span>
         </el-dialog>
     </div>
 </template>
 
 <script>
+var checkTno = (rule, value, callback) => {
+    if( !Number.isInteger(Number(value))){
+        return callback(new Error("只能填写数字"));
+    }else if(value.length != rule.length){
+        return callback(new Error("编号长度为8"));
+    }else{
+        return callback();
+    }
+}
+
+var checkCno = (rule, value, callback) => {
+    if(!Number.isInteger(Number(value))){
+        return callback(new Error("只能填写数字"));
+    }else{
+        return callback();
+    }
+}
+
+var checkHour = (rule, value, callback) => {
+    if(!Number.isInteger(Number(value))){
+        return callback(new Error("只能填写整数"));
+    }else{
+        return callback();
+    }
+}
 export default {
     name:"addSchedule",
     data(){
@@ -77,12 +130,23 @@ export default {
             grade:"",
             classno:"",
             dialogVisible:false,
-            tempDay:'',
-            tempItem:'',
-            index:-1,
+            tempDay:[],
+            tempItem:[],
+            index:-1,   //记录当前选中的行
+
+            course:{
+                tno:"",
+                cno:"",
+                hour:"",
+                place:"",
+                time:"",
+                timeLabel:"",
+                term:"",
+                grade:"",
+                classno:"",
+            },
 
             courses:[],
-
             weekdays:[
                 {
                     value:"1",
@@ -113,7 +177,6 @@ export default {
                     label:"星期日"
                 }
             ],
-
             items:[
                 {
                     value:"12",
@@ -156,40 +219,35 @@ export default {
             ],
             classes:[
                 {
-                    value:"1",
+                    value:"01",
                     label:"1班",
                 },
                 {
-                    value:"2",
+                    value:"02",
                     label:"2班",
                 },
                 {
-                    value:"3",
+                    value:"03",
                     label:"3班",
                 },
                 {
-                    value:"4",
+                    value:"04",
                     label:"4班",
                 },
                 {
-                    value:"5",
+                    value:"05",
                     label:"5班",
                 },
                 {
-                    value:"6",
+                    value:"06",
                     label:"6班",
                 },
                 {
-                    value:"7",
+                    value:"07",
                     label:"7班",
                 }
             ],
-
             grades:[
-                {
-                    value:"2016",
-                    label:"2016级"
-                },
                 {
                     value:"2017",
                     label:"2017级"
@@ -202,72 +260,67 @@ export default {
                     value:"2019",
                     label:"2019级"
                 },
+                {
+                    value:"2020",
+                    label:"2020级"
+                },
                 
             ],
             terms:[
                 {
-                    value:"2017-2018学年第一学期",
-                    label:"2017-2018学年第一学期"
-                },
-                {
-                    value:"2017-2018学年第二学期",
-                    label:"2017-2018学年第二学期"
-                },
-                {
-                    value:"2018-2019学年第一学期",
-                    label:"2018-2019学年第一学期"
-                },
-                {
-                    value:"2018-2019学年第二学期",
-                    label:"2018-2019学年第二学期"
-                },
-                {
                     value:"2019-2020学年第一学期",
                     label:"2019-2020学年第一学期"
-                },               
+                },
                 {
                     value:"2019-2020学年第二学期",
                     label:"2019-2020学年第二学期"
+                },
+                {
+                    value:"2020-2021学年第一学期",
+                    label:"2020-2021学年第一学期"
                 }
-            ]
+            ],
+            rules:{
+                cno:[
+                    {required: true, message:'课程号不能为空', trigger: 'blur'},
+                    {validator: checkCno, trigger: 'blur'}
+
+                ],
+                tno:[
+                    {required: true, message:"教师编号不能为空", trigger: 'blur'},
+                    {length: 8, validator: checkTno, trigger: 'blur'}
+                ],
+                hour:[
+                    {required: true, message:"课时不能为空", trigger: 'blur'},
+                    {validator: checkHour, trigger: 'blur'}
+                ],
+                place:[
+                    {required: true, message:"上课地点不能为空", trigger: 'blur'}
+                ],
+                time:[
+                    {required: true, message:"每门课程一周至少一节", trigger:'blur'}
+                ]
+            }
         }
     },
     methods:{
         cancel(){
-            this.dialogVisible = false;
-        },
-        addTime(){
-            var time = this.tempDay + "" + this.tempItem
-            if(this.courses[this.index].time == ""){
-                this.courses[this.index].time = time;
-            }else{
-                this.courses[this.index].time = this.courses[this.index].time + "," + time;
-            }
-            
-            console.log(this.courses[this.index].time);
-            this.dialogVisible = false;
-            this.tempDay = '';
-            this.tempItem = '';
-            this.index = -1;
-        },
-        showDialog(index){
-            this.index = index;
-            this.dialogVisible = true;
-        },
-        add(){
-            this.courses.push({
-                cno:"",
+            this.course = {
                 tno:"",
+                cno:"",
                 hour:"",
                 place:"",
                 time:"",
+                timeLabel:"",
                 term:"",
                 grade:"",
                 classno:"",
-            })
+            }
+            this.dialogVisible = false;
         },
-        //将学期、年级、班级信息添加到课程信息中
-        addMessage(){
+
+        //点击添加按钮，显示对话框
+        add(){
             if(this.term == ''){
                 alert("请选择学期！");
                 return;
@@ -280,17 +333,89 @@ export default {
                 alert("请选择班级");
                 return;
             }
+            this.dialogVisible = true;
+        },
+
+        //在对话框中填写课程信息点击确定后，保存数据
+        addSchedule(formName){
+            this.$refs[formName].validate((valid) => {
+                if(valid){
+                    const length = this.tempDay.length
+                    for(var i = 0; i < length; i++){
+                        for(var j = 0; j < 7; j++){
+                            if(this.tempDay[i] == this.weekdays[j].value){
+                                this.course.time = this.course.time + this.tempDay[i]
+                                this.course.timeLabel = this.course.timeLabel + this.weekdays[j].label
+                                break
+                            }
+                        }
+                        for(var m = 0; m < 10; m++){
+                            if(this.tempItem[i] == this.items[m].value){
+                                this.course.time = this.course.time + this.tempItem[i]
+                                this.course.timeLabel = this.course.timeLabel + this.items[m].label
+                                break
+                            }
+                        }
+
+                        if(i < length - 1){
+                            this.course.time = this.course.time + ','
+                            this.course.timeLabel = this.course.timeLabel + '；'
+                        }
+                    }
+                    // console.log(this.course)
+                    this.courses.push(this.course);
+                    this.course = {
+                        tno:"",
+                        cno:"",
+                        hour:"",
+                        place:"",
+                         time:"",
+                        timeLabel:"",
+                        term:"",
+                        grade:"",
+                        classno:"",
+                    }
+                    this.clearDay()
+                    this.clearItem()
+                    this.dialogVisible = false
+                }
+            })
+        },
+
+        //清空tempDay
+        clearDay(){
+            var i = 0;
+            var length = this.tempDay.length
+            for(; i < length; i++){
+                this.tempDay[i] = ""
+            }
+        },
+
+        //清空tempItem
+        clearItem(){
+            var i = 0;
+            var length = this.tempItem.length
+            for( ; i < length; i++){
+                this.tempItem[i] = ""
+            }
+        },
+
+        //将学期、年级、班级信息添加到课程信息中
+        delMessage(){
             var i = 0;
             var length = this.courses.length;
             for(; i < length ; i++){
                 this.courses[i].term = this.term;
                 this.courses[i].grade = this.grade;
                 this.courses[i].classno = this.classno;
+
+                //删除timeLabel属性
+                delete this.courses[i].timeLabel;
             }
         },
         submit(){
-            this.addMessage();
-            console.log(this.courses);
+            this.delMessage();
+            // console.log(this.courses);
             // this.courses = JSON.stringify(this.courses);
             this.$axios.post("/manager/addSchedule",this.courses)
             .then(res => {
@@ -299,7 +424,7 @@ export default {
                 }else{
                     alert("添加失败！");
                 }
-                console.log(res);
+                // console.log(res);
             })
             .catch(function(error){
                 alert("发生错误！");
@@ -363,4 +488,17 @@ export default {
     width: 90%;
     margin: 0 auto;
 }
+.delete-schedule-btn{
+    width: 60px;
+    height: 30px;
+    text-align: center;
+    padding: 0%;
+}
+.update-schedule-btn{
+    width: 60px;
+    height: 30px;
+    text-align: center;
+    padding: 0%;
+}
+
 </style>

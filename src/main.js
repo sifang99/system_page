@@ -7,16 +7,7 @@ import axios from 'axios'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
-/**
- * 1. 设置post数据格式为表单格式
- * 2. 设置基路径
- * 3. 序列化字符串
- */
-
  Vue.use(ElementUI);
-
-
-
 
 Vue.prototype.$axios = axios;
 

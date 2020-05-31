@@ -87,8 +87,11 @@ export default {
       if(this.teacherinfo.length == 8){
           this.$axios.get("/manager/findTeacherByTno",{params:{"tno":this.teacherinfo}})
           .then(res => {
-              this.teacherlists = res.data;
+              console.log(res);
+              this.teacherlists.splice(0,this.teacherlists.length);
+              this.teacherlists[0] = res.data;
               this.totalNum = 1;
+              console.log(this.teacherlists);
           })
           .catch(function(error){
               alert("发生错误！");

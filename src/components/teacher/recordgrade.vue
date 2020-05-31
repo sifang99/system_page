@@ -2,25 +2,25 @@
 <div>
     <div id="selection-wrapper" class="clearfix">
         <el-select v-model="term" clearable placeholder="请选择学期" popper-class="terms"
-        @change="GetTerm($event)">
+        @change="clickTerm($event)">
             <el-option v-for="item in terms" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
         </el-select>
 
         <el-select v-model="grade" clearable placeholder="请选择年级" popper-class="grades"
-        @change="GetGrade($event)">
+        @change="clickGrade($event)">
             <el-option v-for="item in grades" :key="item.gradeno" :label="item.gradename" :value="item.gradeno">
             </el-option>
         </el-select>
 
         <el-select v-model="course" clearable placeholder="请选择课程" popper-class="courses"
-        @change="GetCourse($event)">
+        @change="clickCourse($event)">
             <el-option v-for="item in courses" :key="item" :label="item" :value="item">
             </el-option>
         </el-select>
 
         <el-select v-model="cclass" clearable placeholder="请选择授课班级" popper-class="classes"
-        @change="GetClass($event)">
+        @change="clickClass($event)">
             <el-option v-for="item in classes" :key="item" :label="item" :value="item">
             </el-option>
         </el-select>
@@ -116,28 +116,13 @@ export default {
       totals:0, //返回记录总条数
 
       // 选项的值会保存到这里对应v-model的数据中
-      term: '',
-      course: '',
-      cclass: '',
-      grade: '',
-      year:'',
+      term: '',   //选中的学期
+      course: '',//选中的课程
+      cclass: '',//授课班级
+      grade: '',//选中的年级
+      // year:'',
 
-      terms: [{
-        value: '2017-2018学年第一学期',
-        label: '2017-2018学年第一学期'
-      },
-      {
-        value: '2017-2018学年第二学期',
-        label: '2017-2018学年第二学期'
-      },
-      {
-        value: '2018-2019学年第一学期',
-        label: '2018-2019学年第一学期'
-      },
-      {
-        value: '2018-2019学年第二学期',
-        label: '2018-2019学年第二学期'
-      },
+      terms: [
       {
         value: '2019-2020学年第一学期',
         label: '2019-2020学年第一学期'
@@ -145,28 +130,35 @@ export default {
       {
         value: '2019-2020学年第二学期',
         label: '2019-2020学年第二学期'
+      },
+      {
+        value: '2020-2021学年第一学期',
+        label: '2020-2021学年第一学期'
+      },
+      {
+        value: '2020-2021学年第二学期',
+        label: '2020-2021学年第二学期'
       }],
-
-      // 课程
-      courses: [],
-
-      // 班级
-      classes: [],
-
       // 年级
       grades: [{
-        gradeno: '2016',
-        gradename: '2016'
-      }, {
         gradeno: '2017',
-        gradename: '2017'
+        gradename: '2017级'
       }, {
         gradeno: '2018',
-        gradename: '2018'
+        gradename: '2018级'
       }, {
-        gradeno: '2019',
-        gradename: '2019'
+        gradeno: '2019级',
+        gradename: '2019级'
+      }, {
+        gradeno: '2020',
+        gradename: '2020级'
       }],
+
+      // 返回来的课程
+      courses: [],
+
+      // 返回来的班级
+      classes: [],
 
       teacher:{
         username: this.getUser.username,
@@ -228,10 +220,13 @@ export default {
         // " cname: ",this.course," grade: ",this.grade, " classno: ",this.cclass);
         if(this.grade == ""){
           alert("请选择年级！");
+          return
         }else if(this.course == "" ){
           alert("请选择课程名！");
+          return
         }else if (this.cclass == ""){
           alert("请选择班级！");
+          return
         }else{
             this.$axios.get('/teacher/findByPage',{params:{"page":this.currentPage,
             "rows":this.pagesize, "cname":this.course, "grade":this.grade,"classno":this.cclass}})
@@ -276,10 +271,12 @@ export default {
     },
    
     // 获取选择信息-测试用 直接用this.term就可获取到选择信息  其他选择类似
-    GetTerm (e) {
+    clickTerm (e) {
       this.courses = null;
+      this.classes = null;
       this.course = "";
       this.cclass = "";
+      this.grade = "";
       if(this.term != "" && this.grade != ""){
         // console.log("TAG",this.teacher, "TAG ",this.term , " TAG ",this.grade);
         this.$axios.get("/teacher/findCname",{params:{"tno":this.teacher.account,"term":this.term,"grade":this.grade}})
@@ -298,8 +295,9 @@ export default {
       }
       // console.log(this.term)
     },
-    GetGrade (e) {
+    clickGrade (e) {
       this.courses = null;
+      this.classes = null;
       this.course = "";
       this.cclass = "";
       if(this.term != "" && this.grade != ""){
@@ -319,10 +317,10 @@ export default {
         })
       }
     },
-    GetClass (e) {
+    clickClass (e) {
       
     },
-    GetCourse (e) {
+    clickCourse (e) {
       this.classes = null;
       this.cclass = "";
       if(this.term != "" && this.grade != "" && this.course != ""){
