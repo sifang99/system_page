@@ -9,37 +9,37 @@
         <div class="control-hint">权限列表：</div>
 
         <el-table :data="selectpermissionlists.slice((currentPage-1)*pageSize,currentPage*pageSize)"
-            style="width: 100%" stripe="true"
-            border="true"
-            @row-click="getdetail"
-            row-style="height:0"
-            cell-style="padding:5px">
-            <el-table-column prop="id" label="序号" align="center" width="50"></el-table-column>
-            <el-table-column prop="pname" label="权限名称" align="center" width="200"></el-table-column>
-            <el-table-column prop="pcode" label="权限映射" width="200" align="center"></el-table-column>
-            <el-table-column prop="purl" label="权限路径" align="center" width="200"></el-table-column>
-            <el-table-column prop="operation" label="权限管理" align="center">
-                <el-button type="warning" icon="el-icon-edit-outline" round id="btn-edit" @click="editVisible = true">修改</el-button>
-                <el-button type="danger" icon="el-icon-delete" round id="btn-del" @click="delVisible = true">删除</el-button>
+            style="width: 100%" >
+            <el-table-column type="index" :index="indexAutoincrease" label="序号" align="center" width="50"></el-table-column>
+            <el-table-column prop="name" label="权限名称" align="center" width="200"></el-table-column>
+            <el-table-column prop="code" label="权限映射" width="200" align="center"></el-table-column>
+            <el-table-column prop="url" label="权限路径" align="center" width="260"></el-table-column>
+            <el-table-column label="修改" align="center" width="150">
+              <template slot-scope="scope">
+                <el-button type="warning" icon="el-icon-edit-outline" round id="btn-edit" @click="showEdit(scope.$index)">修改</el-button>
+              </template>
+            </el-table-column>
+              <el-table-column label="删除" align="center" width="150">
+                <el-template slot-scope="scope">
+                <el-button type="danger" icon="el-icon-delete" round id="btn-del" @click="showDelete(scope.$index)">删除</el-button>
+              </el-template>
             </el-table-column>
         </el-table>
 
-        <el-dialog title="编辑权限" :visible.sync="editVisible">
-        <el-form :model="editpermissionform">
-            <el-form-item label="权限名称" :label-width="formLabelWidth">
-                <el-input v-model="editpermissionform.pname" autocomplete="off"></el-input>
+        <el-dialog title="编辑权限" :visible.sync="editVisible" width="450px">
+        <el-form :model="editpermissionform" ref="ruleForm" :rules="rules">
+            <el-form-item prop="name" label="权限名称" :label-width="formLabelWidth">
+                <el-input v-model="editpermissionform.name" autocomplete="off" @input="updateView($event)"></el-input>
             </el-form-item>
-            <el-form-item label="权限映射" :label-width="formLabelWidth">
-                <el-input v-model="editpermissionform.pcode" autocomplete="off"></el-input>
+            <el-form-item prop="code" label="权限映射" :label-width="formLabelWidth">
+                <el-input v-model="editpermissionform.code" autocomplete="off" @input="updateView($event)"></el-input>
             </el-form-item>
-            <el-form-item label="权限路径" :label-width="formLabelWidth">
-                <el-input v-model="editpermissionform.purl" autocomplete="off"></el-input>
+            <el-form-item> 
+                <el-button type="primary" @click="cancelEdit">取 消</el-button>
+                <el-button type="primary" @click="EditPermission('ruleForm')">确 定</el-button>
             </el-form-item>
         </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="editVisible = false">取 消</el-button>
-            <el-button type="primary" @click="EditPermission()">确 定</el-button>
-        </div>
+        
         </el-dialog>
 
         <el-dialog
@@ -48,8 +48,8 @@
         width="30%">
         <span>确定要删除该权限吗？</span>
         <span slot="footer" class="dialog-footer">
-            <el-button @click="delVisible = false">取 消</el-button>
-            <el-button type="primary" @click="DelPermission()">确 定</el-button>
+            <el-button @click="cancelDelete">取 消</el-button>
+            <el-button type="primary" @click="DelPermission">确 定</el-button>
         </span>
         </el-dialog>
 
@@ -58,7 +58,7 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="currentPage"
-            :page-sizes="[1, 3, 5, 8]"
+            :page-sizes="[3, 5, 8]"
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="totalNum"
@@ -76,77 +76,142 @@ export default {
       searchinfo: '',
       editVisible: false, // 显示编辑权限对话框
       delVisible: false, // 显示删除权限对话框
+      index:-1,//当前选中的行
 
       formLabelWidth: '80px',
       currentPage: 1, // 默认显示第一页
-      pageSize: 1, // 默认每页显示10条
-      totalNum: 1000, // 总页数
-      permissionlists: [{
-        id: '1',
-        pname: '管理员权限',
-        pcode: 'admin:logoutuser',
-        purl: '/admin/***',
-        operation: ''
-      }, {
-        id: '2',
-        pname: '管理员权限',
-        pcode: 'admin:logoutuser',
-        purl: '/admin/***',
-        operation: ''
-      }, {
-        id: '3',
-        pname: '管理员权限',
-        pcode: 'admin:logoutuser',
-        purl: '/admin/***',
-        operation: ''
-      }],
+      pageSize: 3, // 默认每页显示10条
+      totalNum: 0, // 总页数
+      permissionlists: [],
       selectpermissionlists: [],
 
       // 编辑权限信息
       editpermissionform: {
-        pname: 'aa',
-        pcode: 'bb',
-        purl: 'cc'
+        id:'',
+        name: '',
+        code: ''
+      },
+
+      rules:{
+        name:[
+          {required: true, message: '权限名不能为空', trigger: 'blur'}
+        ],
+        code:[
+          {required: true, message: '权限映射不能为空', trigger: 'blur'}
+        ]
       }
     }
   },
   methods: {
-    // 获取编辑权限的原内容
-    getdetail (row) {
-      this.editpermissionform.pname = row.pname
-      this.editpermissionform.pcode = row.pcode
-      this.editpermissionform.purl = row.purl
+    updateView(e){
+      this.$forceUpdate();
     },
+
+    //处理表格序号
+    indexAutoincrease(index) {
+        return (this.currentPage - 1) * this.pageSize + index + 1;
+    },
+
     // 搜索
     findPermissionFilter (e) {
       console.log(this.searchinfo)
-      this.selectpermissionlists = this.permissionlists.filter(item => item.pname === this.searchinfo)
+      this.selectpermissionlists = this.permissionlists.filter(item => item.name === this.searchinfo)
       this.totalNum = this.selectpermissionlists.length
+      console.log(this.permissionlists)
+    },
+
+    showEdit(rowIndex){
+      this.index = (this.currentPage - 1) * this.pageSize + rowIndex
+      this.editpermissionform.name = this.selectpermissionlists[this.index].name
+      this.editpermissionform.code = this.selectpermissionlists[this.index].code
+      this.editpermissionform.id = this.selectpermissionlists[this.index].id
+      this.editVisible = true
+    },
+
+    showDelete(rowIndex){
+      this.index = (this.currentPage - 1) * this.pageSize + rowIndex
+      console.log(this.index)
+      this.delVisible = true
+    },
+
+    cancelEdit(){
+      this.editVisible = false
+    },
+
+    cancelDelete(){
+      this.delVisible = false
     },
 
     // 编辑权限
-    EditPermisssion () {
-      this.editVisible = false
+    EditPermission (formName) {
+      this.$refs[formName].validate((valid) => {
+        if(valid){
+          this.selectpermissionlists[this.index].name = this.editpermissionform.name
+          this.selectpermissionlists[this.index].code = this.editpermissionform.code
+          // console.log(this.selectpermissionlists[this.index])
+          this.$axios.post('/manager/updatePermission',JSON.stringify(this.selectpermissionlists[this.index]))
+          .then(res => {
+            // console.log(res)
+            if(res.data.state){
+                this.index = -1
+                //清空editpermissionform.name
+                this.editpermissionform.name=''
+                this.editpermissionform.code=''
+                this.editpermissionform.id=''
+                this.editVisible = false;
+            }
+          })
+          .catch(function(error){
+            console.log('error in EditPermission')
+          })
+          
+        }
+      })
     },
 
     // 删除权限
     DelPermission () {
-      this.delVisible = false
+      console.log(this.index)
+      console.log(this.selectpermissionlists)
+      console.log(this.selectpermissionlists[this.index].id)
+      this.$axios.post('/manager/deletePermission',String(this.selectpermissionlists[this.index].id))
+      .then(res => {
+        console.log(res)
+        if(res.data.state){
+          this.selectpermissionlists.splice(this.index,1)
+          this.index = -1
+          this.totalNum = this.totalNum - 1
+        }
+      })
+      .catch(function(error){
+        console.log('error in DelPermission')
+      })
+      this.delVisible = false;
     },
     // 分页处理
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`)
+      // console.log(`每页 ${val} 条`)
       this.pageSize = val // 动态改变
     },
 
     handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
+      // console.log(`当前页: ${val}`)
       this.currentPage = val // 动态改变
     }
   },
   created () {
-    this.totalNum = this.permissionlists.length
-    this.selectpermissionlists = this.permissionlists
+    this.$axios.get('/manager/findAllPermission')
+    .then(res => {
+      this.permissionlists = res.data
+      // console.log(res)
+      // console.log(this.permissionlists)
+      this.totalNum = this.permissionlists.length
+      this.selectpermissionlists = this.permissionlists
+    })
+    .catch(function(error){
+      console.log("获得权限信息发生错误！");
+    })
+    
   }
 
 }

@@ -66,7 +66,7 @@ export default {
       }else{
         console.log(this.chooseCourse[this.index].cno);
         console.log(this.student.account);
-        this.$axios.get('/student/updateNumber',{params:{"cno":this.chooseCourse[this.index].cno,"sno":this.student.account}})
+        this.$axios.get('/limitStu/updateNumber',{params:{"cno":this.chooseCourse[this.index].cno,"sno":this.student.account}})
         .then(res => {
           console.log(res);
           if(res.data.state){
@@ -98,7 +98,7 @@ export default {
         type:"warning"
       })
       .then( () =>{
-        this.$axios.get("/student/StuChangeCourse",{params:{"cno":this.chooseCourse[this.index].cno,"sno":this.student.account}})
+        this.$axios.get("/limitStu/StuChangeCourse",{params:{"cno":this.chooseCourse[this.index].cno,"sno":this.student.account}})
         .then(res => {
           if(res.data.state){
             this.$message({
@@ -157,7 +157,7 @@ export default {
       this.getData();
     },
     getData(){
-      this.$axios('/student/sfindByPage',{params:{"page":this.currentPage,"rows":this.pageSize}})
+      this.$axios('/limitStu/sfindByPage',{params:{"page":this.currentPage,"rows":this.pageSize}})
       .then(res => {
         if(res.data.totals != 0){
           this.chooseCourse = res.data.optionals;

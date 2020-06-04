@@ -32,6 +32,7 @@
 </template>
 
 <script >
+import {setCookie,getCookie, delCookie} from '../../assets/js/cookie';
 export default {
     name: 'login_content',
     data() {
@@ -75,6 +76,24 @@ export default {
                 this.$axios.post("/user/login",this.user).then((response) => {
                     console.log(response);
                     if(response.data.state){
+                        if(localStorage.getItem('account')){
+                            localStorage.removeItem('account')
+                        }
+                        if(localStorage.getItem('role')){
+                            localStorage.removeItem('role')
+                        }
+                        if(localStorage.getItem('isLogin')){
+                            localStorage.removeItem('isLogin')
+                        }
+
+                        localStorage.setItem('account',this.user.account)
+                        localStorage.setItem('role', response.data.role)
+                        localStorage.setItem('isLogin',1)
+                        
+                        // console.log(localStorage.getItem('account'))
+                        // console.log(localStorage.getItem('role'))
+                        // console.log(localStorage.getItem('isLogin'))
+
                         this.user.role = response.data.role;
                         this.user.username = response.data.username;
                         this.$emit("Login",this.user);

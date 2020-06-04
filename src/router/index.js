@@ -24,6 +24,8 @@ import login from '../components/login/login_content'
 import logoutUser from '../components/administrator/logoutuser/logoutuser'
 import logoutTeacher from '../components/administrator/logoutuser/logout_teacher'
 import logoutStudent from '../components/administrator/logoutuser/logout_student'
+import permission from '../components/administrator/permission/permission'
+import manageRole from '../components/administrator/permission/managerole'
 
 
 Vue.use(Router)
@@ -39,7 +41,26 @@ export default new Router({
       path: '/administrator',
       name: 'administrator',
       component: administrator,
+      beforeEnter: (to, from, next) => {
+        const role = localStorage.getItem('role')
+        const isLogin = localStorage.getItem('isLogin')
+        if(isLogin && role == "3"){
+          console.log(isLogin)
+          console.log(role)
+          next()
+        }
+      },
       children: [
+        {
+          path:'manageRole',
+          name: 'manageRole',
+          component: manageRole
+        },
+        {
+          path:'permission',
+          name:'permission',
+          component: permission
+        },
         {
           path:'logoutUser',
           name:'logoutUser',
@@ -114,6 +135,15 @@ export default new Router({
       path:'/student',
       name:'student',
       component: student,
+      beforeEnter: (to, from, next) => {
+        const role = localStorage.getItem('role')
+        const isLogin = localStorage.getItem('isLogin')
+        if(isLogin && role == "1"){
+          console.log(isLogin)
+          console.log(role)
+          next()
+        }
+      },
       children:[
         {
           path:'schedule',
@@ -157,6 +187,15 @@ export default new Router({
       path:'/teacher',
       name:'teacher',
       component:teacher,
+      beforeEnter: (to, from, next) => {
+        const role = localStorage.getItem('role')
+        const isLogin = localStorage.getItem('isLogin')
+        if(isLogin && role == "2"){
+          console.log(isLogin)
+          console.log(role)
+          next()
+        }
+      },
       children:[
         {
           path:'schedule',

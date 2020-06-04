@@ -201,7 +201,7 @@ export default {
         delete this.record[i].sname;
       }
        console.log(this.record);
-      this.$axios.post("/teacher/updateGrade",this.record)
+      this.$axios.post("/limitTea/updateGrade",this.record)
       .then(res => {
         if(res.data.state){
           alert("登记成功！");
@@ -228,7 +228,7 @@ export default {
           alert("请选择班级！");
           return
         }else{
-            this.$axios.get('/teacher/findByPage',{params:{"page":this.currentPage,
+            this.$axios.get('/limitTea/findByPage',{params:{"page":this.currentPage,
             "rows":this.pagesize, "cname":this.course, "grade":this.grade,"classno":this.cclass}})
             .then(response => {
               // console.log(response);

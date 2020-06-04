@@ -64,6 +64,7 @@
 </template>
 
 <script>
+import getCookie from '../../assets/js/cookie'
 export default {
     name:'info',
     data(){

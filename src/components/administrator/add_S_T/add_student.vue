@@ -1,10 +1,10 @@
 <template>
     <div class="addStudent">
-        <el-select class="add-stu-select"v-model="dept" placeholder="请选择学院">
-            <el-option v-for="item in depts" :value="item.value" :label="item.label"></el-option>
+        <el-select class="add-stu-select"v-model="dept" @change="getMajor($event)" placeholder="请选择学院">
+            <el-option v-for="item in depts" :value="item" :label="item"></el-option>
         </el-select>
         <el-select class="add-stu-select" v-model="major" placeholder="请选择专业">
-            <el-option v-for="item in majors" :value="item.value" :label="item.label"></el-option>
+            <el-option v-for="item in majors" :value="item" :label="item"></el-option>
         </el-select>
         <el-select class="add-stu-select" v-model="grade" placeholder="请选择年级">
             <el-option v-for="item in grades" :value="item.value" :label="item.label"></el-option>
@@ -74,7 +74,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item prop="sex" label="请选择性别">
-                            <el-select v-model="studentInfo.sex" placeholder="">
+                            <el-select  v-model="studentInfo.sex" placeholder="">
                                 <el-option value="0" label="女">女</el-option>
                                 <el-option value="1" label="男">男</el-option>
                             </el-select>
@@ -112,6 +112,7 @@
 <script>
 import qs from 'qs'
 
+//自定义学号的检验规则
 var checkSno = (rule, value, callback) => {
     if(!Number.isInteger(Number(value))){
         return callback(new Error("只能填写数字"));
@@ -195,58 +196,8 @@ export default {
                     label:"7班"
                 }
             ],
-            depts:[
-                {
-                    value:"计算机科学学院",
-                    label:"计算机科学学院"
-                },
-                {
-                    value:"外国语学院",
-                    label:"外国语学院"
-                },
-                {
-                    value:"体育学院",
-                    label:"体育学院"
-                },
-                {
-                    value:"音乐学院",
-                    label:"音乐学院"
-                },
-                {
-                    value:"舞蹈学院",
-                    label:"舞蹈学院"
-                },
-                {
-                    value:"美术学院",
-                    label:"美术学院"
-                },{
-                    value:"服装与设计学院",
-                    label:"服装与设计学院"
-                },
-                {
-                    value:"物电学院",
-                    label:"物电学院"
-                },
-                
-            ],
-            majors:[
-                {
-                    value:"软件工程",
-                    label:"软件工程"
-                },
-                {
-                    value:"网络工程",
-                    label:"网络工程"
-                },
-                {
-                    value:"计算机科学与技术",
-                    label:"加算计科学与技术"
-                },
-                {
-                    value:"电子商务",
-                    label:"电子商务"
-                },
-            ],
+            depts:[],
+            majors:[],
 
             rules:{
                 sno:[
@@ -275,6 +226,23 @@ export default {
         }
     },
     methods:{
+        //根据选中的学院获取专业
+        getMajor(){
+            if(this.dept != ''){
+            this.$axios.get("/user/findMajorByCollege",{params: {"college": this.dept}})
+            .then(res => {
+                if(res.data){
+                    this.majors = res.data
+                }else{
+                    console.log("没有专业返回");
+                }
+            })
+            .catch(function (error){
+                console.log("获取专业发生错误！");
+            })
+
+            }
+        },
         //处理表格序号
         indexAutoincrease(index) {
             return (this.currentPage - 1) * this.pageSize + index + 1;
@@ -393,7 +361,19 @@ export default {
             
         },
 
+        //为students添加学院、专业、年级、班级信息
+        addMessage(){
+            var length = this.students.length
+            for(var i = 0; i < length; i++){
+                this.students[i].dept = this.dept
+                this.students[i].major = this.major
+                this.students[i].grade = this.grade
+                this.students[i].classno = this.classno
+            }
+        },
+
         submit(){
+            this.addMessage();
             var students = JSON.stringify(this.students);
             // console.log(this.students);
             //发送http请求
@@ -420,6 +400,16 @@ export default {
             // console.log(`当前页: ${val}`)
             this.currentPage = val // 动态改变
         }
+    },
+    created(){
+        this.$axios.get("/user/findAllCollege")
+        .then(res => {
+            console.log(res);
+            this.depts = res.data
+        })
+        .catch(function (error){
+            alert("发生错误");
+        })
     },
     mounted(){
         //设置录入学生出生日期时，可以输入的日期的最大值
@@ -479,6 +469,10 @@ export default {
 .separateLine{
     color: white;
     margin-top: 30px;
+}
+
+#stu-sex{
+    width: 60%;
 }
 
 

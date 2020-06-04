@@ -6,20 +6,18 @@
             <p class="title">某高校教学管理系统</p>
             <input type="button" class="logout" value="退出登录" @click="logout">
             <p class="user_role">角色： 管理员</p>
-            <p class="user_name">用户：{{ admin.username}}</p>
+            <p class="user_name">用户：{{ admin.username }}</p>
             <img src="../../assets/img/user_logo.png" class="user_logo">   
         </div>
         <div id="content">
             <div class="left-bar  color_darkgray">
-                <ul>
-                    
+                <ul>                    
                     <li>
                         <img src="../../assets/img/icon_i.png" alt="">
                         <router-link to="/administrator/adminInfo">
                             <input type="button" value="个人信息" class="menu-item">
                         </router-link>
-                    </li>
-                
+                    </li>              
                     <li>
                         <img src="../../assets/img/icon_book.jpg" alt="">
                         <router-link to="/administrator/addCourse">
@@ -51,6 +49,18 @@
                         </router-link>
                     </li>
                     <li>
+                        <img src="../../assets/img/icon_hat.png" alt="">
+                        <router-link to="/administrator/permission">
+                            <input type="button" value="权限管理" class="menu-item">
+                        </router-link>
+                    </li>
+                    <li>
+                        <img src="../../assets/img/icon_manage.png" alt="">
+                        <router-link to="/administrator/manageRole">
+                            <input type="button" value="角色管理" class="menu-item">
+                        </router-link>
+                    </li>
+                    <li>
                         <img src="../../assets/img/icon_key.jpg" alt="">
                         <router-link to="/administrator/changPassword">
                             <input type="button" value="修改密码" class="menu-item">
@@ -76,6 +86,7 @@
 </template>
 
 <script>
+import { getCookie, delCookie } from "../../assets/js/cookie";
 export default {
     name:'Admin_content',
     data(){
@@ -90,6 +101,8 @@ export default {
     },
     methods:{
         logout(){
+            delCookie('account')
+            delCookie('isLogin')
             this.$emit("Logout",false);           
         },
         showDetail(e){
