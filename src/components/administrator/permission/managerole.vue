@@ -145,6 +145,9 @@ export default {
       }
       
     },
+    getPermission(id){
+
+    },
     showDelDialog(index){
       this.delVisible = true
       this.delIndex = index
