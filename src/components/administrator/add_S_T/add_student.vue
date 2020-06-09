@@ -411,15 +411,6 @@ export default {
             alert("发生错误");
         })
     },
-    mounted(){
-        //设置录入学生出生日期时，可以输入的日期的最大值
-        var date = new Date();
-        var year = date.getFullYear();
-        //js中获取月份时，会比当前月份少1，
-        var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth()+1) : (date.getMonth() + 1);
-        var day = date.getUTCDate();
-        document.getElementById("birth").setAttribute("max",year + "-" + month + "-" + day);
-    }
 }
 </script>
 

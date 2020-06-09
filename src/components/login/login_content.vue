@@ -21,7 +21,7 @@
                         <input type="checkbox"  v-model="rememberPassword" value="true" class="remember_psd">
                         <label>记住用户</label>
                         <br>
-                        <button id="submit" type="button" class="color_green" @click="login">确认</button>
+                        <button id="submit" type="button" class="isjs-ac-userLogin color_green" @click="login">确认</button>
                     </div>
                 </div>
             </div>
@@ -32,7 +32,7 @@
 </template>
 
 <script >
-import {setCookie,getCookie, delCookie} from '../../assets/js/cookie';
+import {dataAcquisition} from '../../assets/js/dataAcquisition'
 export default {
     name: 'login_content',
     data() {
@@ -74,7 +74,7 @@ export default {
                 }
                 
                 this.$axios.post("/user/login",this.user).then((response) => {
-                    console.log(response);
+                    // console.log(response);
                     if(response.data.state){
                         if(localStorage.getItem('account')){
                             localStorage.removeItem('account')
@@ -89,10 +89,6 @@ export default {
                         localStorage.setItem('account',this.user.account)
                         localStorage.setItem('role', response.data.role)
                         localStorage.setItem('isLogin',1)
-                        
-                        // console.log(localStorage.getItem('account'))
-                        // console.log(localStorage.getItem('role'))
-                        // console.log(localStorage.getItem('isLogin'))
 
                         this.user.role = response.data.role;
                         this.user.username = response.data.username;
@@ -103,8 +99,7 @@ export default {
                     
                     }).catch(function (error){
                         alert("发生错误！");        
-                    });
-                 
+                    });  
             },
            
     },

@@ -83,7 +83,7 @@ export default {
       .then(res => {
         if(res.data.totals != 0){
           this.gradeinfo = res.data.sc;
-          this.totalNum = res.data.totals;
+          this.totalNum = this.gradeinfo.length;
           
         }
         console.log(res);

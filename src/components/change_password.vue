@@ -19,12 +19,12 @@
                     <td><input type="password" id="repwd" v-model="repwd"></td>
                 </tr>
             </table>
-            <button id="btn-editpwd" @click="checkpwd">确认修改</button>
+            <button id="btn-editpwd" class="isjs-ac-01" @click="checkpwd">确认修改</button>
         </div>
     </div>
 </template>
 <script>
-import qs from 'qs'
+import {dataAcquisition} from '../assets/js/dataAcquisition'
 export default {
   name: 'change-password',
   data () {
@@ -51,13 +51,7 @@ export default {
   ],
   methods: {
     checkpwd () {
-      
-      
-      // console.log("TAG",this.oldpwd);
-      // console.log("TAG",this.newpwd);
-      // console.log("TAG",this.repwd);
       this.user.password = this.oldpwd;
-      // console.log(this.user);
 
       //判断新密码是否为空
       if(this.newpwd == ""||this.repwd == ""||this.oldpwd == ""){

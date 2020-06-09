@@ -59,12 +59,12 @@
             </tr>
             
         </table>
-         <button v-show="isUpdate" class="submit info-btn color_green" @click="submit">提交</button>
+         <button v-show="isUpdate" class="isjs-ac-01 submit info-btn color_green" @click="submit">提交</button>
     </div>
 </template>
 
 <script>
-import getCookie from '../../assets/js/cookie'
+import {dataAcquisition} from '../../assets/js/dataAcquisition'
 export default {
     name:'info',
     data(){
@@ -101,7 +101,7 @@ export default {
                     if(this.info.msex == '1'){
                         this.info.msex = '男';
                      }
-                     this.isUpdate = true;
+                     this.isUpdate = false;
                 }else{
                     alert("修改失败！");
                 }

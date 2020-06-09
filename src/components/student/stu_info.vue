@@ -1,7 +1,7 @@
 <template>
     <div class="student-info-box">
 
-        <button class="modification stu-btn color_green" @click="Update">修改</button>
+        <button class="isjs-ac-01 modification stu-btn color_green" @click="Update">修改</button>
         <button class="stu-btn color_green" @click="Cancel">取消</button>
 
         <table border="0">
@@ -73,11 +73,12 @@
                 </td>
             </tr>
         </table>
-        <button v-show="isUpdate" class="submit stu-btn color_green" @click="submit">提交</button>
+        <button v-show="isUpdate" class="isjs-ac-studentInfo submit stu-btn color_green" @click="submit">提交</button>
     </div>
 </template>
 
 <script>
+import { dataAcquisition } from "../../assets/js/dataAcquisition";
 export default {
   name: 'stu-info',
   data () {

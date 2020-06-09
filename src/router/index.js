@@ -26,6 +26,7 @@ import logoutTeacher from '../components/administrator/logoutuser/logout_teacher
 import logoutStudent from '../components/administrator/logoutuser/logout_student'
 import permission from '../components/administrator/permission/permission'
 import manageRole from '../components/administrator/permission/managerole'
+import userAction from '../components/administrator/userAction'
 
 
 Vue.use(Router)
@@ -45,12 +46,15 @@ export default new Router({
         const role = localStorage.getItem('role')
         const isLogin = localStorage.getItem('isLogin')
         if(isLogin && role == "3"){
-          console.log(isLogin)
-          console.log(role)
           next()
         }
       },
       children: [
+        {
+          path:'userAction',
+          name:'userAction',
+          component:userAction
+        },
         {
           path:'manageRole',
           name: 'manageRole',

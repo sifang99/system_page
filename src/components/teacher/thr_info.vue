@@ -66,7 +66,7 @@
                 </td>
             </tr>
         </table>
-        <button v-show="isUpdate" class="submit teacher-info-btn color_green" @click="submit">提交</button>
+        <button v-show="isUpdate" class="isjs-ac-teacherInfo submit teacher-info-btn color_green" @click="submit">提交</button>
     </div>
 </template>
 

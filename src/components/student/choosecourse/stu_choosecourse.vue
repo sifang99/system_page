@@ -29,13 +29,14 @@
         class="pagination">
     </el-pagination>
 
-    <el-button type="success" round id="btn-choose" @click="submit">确认选择</el-button>
+    <el-button class="isjs-ac-chooseCourse" type="success"  round id="btn-choose" @click="submit">确认选择</el-button>
  </div>
 </template>
 
 
 
 <script>
+import { dataAcquisition } from "../../../assets/js/dataAcquisition";
 export default {
   name: 'stu-chooseCourse',
   data () {
@@ -95,6 +96,7 @@ export default {
       this.$confirm(message,'提示',{
         confrimButtonText:"确定",
         cancelButtonText:'取消',
+        confirmButtonClass:'isjs-ac-02',
         type:"warning"
       })
       .then( () =>{
@@ -157,7 +159,7 @@ export default {
       this.getData();
     },
     getData(){
-      this.$axios('/limitStu/sfindByPage',{params:{"page":this.currentPage,"rows":this.pageSize}})
+      this.$axios.get('/limitStu/sfindByPage',{params:{"page":this.currentPage,"rows":this.pageSize}})
       .then(res => {
         if(res.data.totals != 0){
           this.chooseCourse = res.data.optionals;

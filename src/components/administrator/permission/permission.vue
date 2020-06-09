@@ -20,9 +20,9 @@
               </template>
             </el-table-column>
               <el-table-column label="删除" align="center" width="150">
-                <el-template slot-scope="scope">
-                <el-button type="danger" icon="el-icon-delete" round id="btn-del" @click="showDelete(scope.$index)">删除</el-button>
-              </el-template>
+                <template slot-scope="scope">
+                  <el-button type="danger" icon="el-icon-delete" round id="btn-del" @click="showDelete(scope.$index)">删除</el-button>
+                </template>
             </el-table-column>
         </el-table>
 

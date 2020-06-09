@@ -4,7 +4,7 @@
         <div id="header">
             <img src="../../assets/img/logo.jpg" class="logo">
             <p class="title">某高校教学管理系统</p>
-            <input type="button" class="logout" value="退出登录" @click="logout">
+            <input type="button" class="isjs-ac-userlogout logout" value="退出登录" @click="logout">
             <p class="user_role">角色： 管理员</p>
             <p class="user_name">用户：{{ admin.username }}</p>
             <img src="../../assets/img/user_logo.png" class="user_logo">   
@@ -15,55 +15,61 @@
                     <li>
                         <img src="../../assets/img/icon_i.png" alt="">
                         <router-link to="/administrator/adminInfo">
-                            <input type="button" value="个人信息" class="menu-item">
+                            <input type="button" value="个人信息" class="isjs-ac-01 menu-item">
                         </router-link>
                     </li>              
                     <li>
                         <img src="../../assets/img/icon_book.jpg" alt="">
                         <router-link to="/administrator/addCourse">
-                            <input type="button" value="发布选课" class="menu-item">
+                            <input type="button" value="发布选课" class="isjs-ac-02 menu-item">
                         </router-link>                  
                     </li>
                     <li>
                         <img src="../../assets/img/icon_half.png" alt="">
                         <router-link to="/administrator/addSchedule">
-                            <input type="button" value="发布课表" class="menu-item">
+                            <input type="button" value="发布课表" class="isjs-ac-03 menu-item">
                         </router-link>                  
                     </li>
                     <li>
                         <img src="../../assets/img/icon_attention.png" alt="">
                         <router-link to="/administrator/notice">
-                            <input type="button" value="发送通知" class="menu-item">
+                            <input type="button" value="发送通知" class="isjs-ac-04 menu-item">
                         </router-link>                  
                     </li>
                     <li>
                         <img src="../../assets/img/icon_document.png" alt="">
                         <router-link to="/administrator/addDocument">
-                            <input type="button" value="录入信息" class="menu-item">
+                            <input type="button" value="录入信息" class="isjs-ac-05 menu-item">
                         </router-link>
                     </li>
                     <li>
                         <img src="../../assets/img/icon_people.jpg" alt="">
                         <router-link to="/administrator/logoutUser">
-                            <input type="button" value="注销教师/学生账号" class="menu-item">
+                            <input type="button" value="注销教师/学生账号" class="isjs-ac-06 menu-item">
                         </router-link>
                     </li>
                     <li>
                         <img src="../../assets/img/icon_hat.png" alt="">
                         <router-link to="/administrator/permission">
-                            <input type="button" value="权限管理" class="menu-item">
+                            <input type="button" value="权限管理" class="isjs-ac-07 menu-item">
                         </router-link>
                     </li>
                     <li>
                         <img src="../../assets/img/icon_manage.png" alt="">
                         <router-link to="/administrator/manageRole">
-                            <input type="button" value="角色管理" class="menu-item">
+                            <input type="button" value="角色管理" class="isjs-ac-08 menu-item">
+                        </router-link>
+                    </li>
+                    <li>
+                        <img src="../../assets/img/icon_key.jpg" alt="">
+                        <router-link to="/administrator/userAction">
+                            <input type="button" value="用户行为统计" class="isjs-ac-09 menu-item">
                         </router-link>
                     </li>
                     <li>
                         <img src="../../assets/img/icon_key.jpg" alt="">
                         <router-link to="/administrator/changPassword">
-                            <input type="button" value="修改密码" class="menu-item">
+                            <input type="button" value="修改密码" class="isjs-ac-10 menu-item">
                         </router-link>
                     </li>
                 </ul>
@@ -86,7 +92,7 @@
 </template>
 
 <script>
-import { getCookie, delCookie } from "../../assets/js/cookie";
+import { dataAcquisition } from "../../assets/js/dataAcquisition";
 export default {
     name:'Admin_content',
     data(){
@@ -101,8 +107,15 @@ export default {
     },
     methods:{
         logout(){
-            delCookie('account')
-            delCookie('isLogin')
+            if(localStorage.getItem('account')){
+                localStorage.removeItem('account')
+            }
+            if(localStorage.getItem('role')){
+                localStorage.removeItem('role')
+            }
+            if(localStorage.getItem('isLogin')){
+                localStorage.removeItem('isLogin')
+            }
             this.$emit("Logout",false);           
         },
         showDetail(e){

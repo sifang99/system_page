@@ -80,8 +80,6 @@
         label="总成绩">
             <template slot-scope="total">
               <span>  {{total.row.normalgrade*0.2 + total.row.middlegrade*0.3 + total.row.finalgrade*0.5 | numFilter }} </span>
-              <!-- <el-input name="totalgrade" v-model="total.row.normalgrade*0.2 + 
-              total.row.middlegrade*0.3 + total.row.finalgrade*0.5" clearable  @input="change($event)" ></el-input> -->
             </template>  
         </el-table-column>
 
@@ -101,11 +99,12 @@
             </el-pagination>
         </div>
     </div>
-  <el-button type="success" round id="btn-sure" @click="submit">提交</el-button>
+  <el-button type="success" class="isjs-ac-recordGrade" round id="btn-sure" @click="submit">提交</el-button>
 </div>
 </template>
 
 <script>
+import {dataAcquisition} from '../../assets/js/dataAcquisition'
 export default {
   name: 'Recordgrade',
   data () {

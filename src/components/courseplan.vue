@@ -167,7 +167,6 @@ export default {
     },
 
     getArray(){
-      console.log("我进入了getArray");
       var i = 0;
       for(; i < this.data.length; i++){
         var length = 0;   //length为课程时间安排的长度
@@ -176,11 +175,9 @@ export default {
         var day = 0;      //course的列号
         var time = 0;     //某门课程一周有几节课
         var count = 0;//count为一节大课的节数
-        console.log("我进入了getArray的第一层循环");
         time = this.data[i].time.length;
         var j = 0;
         for(; j < time; j++){
-          console.log("我进入了getArray的第二层循环");
           this.pushCourse(length,count,index,day,i,j);
         }
         
@@ -190,7 +187,7 @@ export default {
 
     pushCourse(length, count, index, day, i, j){
 
-      console.log("我进入了pushCourse");
+      // console.log("我进入了pushCourse");
 
       day = this.getDay(this.data[i].time[j].day);
       length = this.data[i].time[j].time.length;

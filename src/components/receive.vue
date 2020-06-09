@@ -10,7 +10,7 @@
     <el-table-column prop="day" label="时间" width="180"></el-table-column>
     <el-table-column >
       <template slot-scope="scope">
-        <a  @click="detail(scope.row.day,scope.row.title,scope.row.content)" > 点击查看 </a>
+        <a  class="isjs-ac-01" @click="detail(scope.row.day,scope.row.title,scope.row.content)" > 点击查看 </a>
       </template>
     </el-table-column>
   </el-table>
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import { dataAcquisition } from "../assets/js/dataAcquisition";
 export default {
   name: 'receiveAttention',
 

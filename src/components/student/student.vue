@@ -4,7 +4,7 @@
         <div id="header">
         <img src="../../assets/img/logo.jpg" class="logo">
         <p class="title">某高校教学管理系统</p>
-        <input type="button" class="logout" value="退出登录" @click="logout">
+        <input type="button" class="isjs-ac-userlogout logout" value="退出登录" @click="logout">
         <p class="user_role">角色： 学生</p>
         <p class="user_name">用户：{{student.username}}</p>
         <img src="../../assets/img/user_logo.png" class="user_logo">
@@ -15,37 +15,37 @@
                     <li>
                         <img src="../../assets/img/icon_i.png" alt="">
                         <router-link to="/student/information">
-                            <input type="button" value="个人信息" class="menu-item">
+                            <input type="button" value="个人信息" class="isjs-ac-01 menu-item">
                         </router-link>
                     </li>
                     <li>
                         <img src="../../assets/img/icon_attention.png" alt="">
                         <router-link to="/student/attention">
-                            <input type="button" value="我需留意" class="menu-item">
+                            <input type="button" value="我需留意" class="isjs-ac-02 menu-item">
                         </router-link>
                     </li>
                     <li>
                         <img src="../../assets/img/icon_book.jpg" alt="">
                         <router-link to="/student/chooseCourse">
-                            <input type="button" value="选课" class="menu-item">
+                            <input type="button" value="选课" class="isjs-ac-03 menu-item">
                         </router-link>
                     </li>
                     <li>
                         <img src="../../assets/img/icon_people.jpg" alt="">
                         <router-link to="/student/schedule">
-                            <input type="button" value="行课" class="menu-item">
+                            <input type="button" value="行课" class="isjs-ac-studentTable menu-item">
                         </router-link>
                     </li>
                     <li>
                         <img src="../../assets/img/icon_right.png" alt="">
                         <router-link to="/student/grade">
-                            <input type="button" value="成绩" class="menu-item">
+                            <input type="button" value="成绩" class="isjs-ac-checkGrade menu-item">
                         </router-link>
                     </li>
                      <li>
                         <img src="../../assets/img/icon_key.jpg" alt="">
                         <router-link to="/student/changPassword">
-                            <input type="button" value="修改密码" class="menu-item">
+                            <input type="button" value="修改密码" class="isjs-ac-06 menu-item">
                         </router-link>
                     </li>
                 </ul>
@@ -68,7 +68,7 @@
 </template>
 
 <script>
-
+import { dataAcquisition } from "../../assets/js/dataAcquisition";
 export default {
     name: 'Student_content',
     data(){
@@ -89,6 +89,15 @@ export default {
             this.message = e;
         },
         logout(){
+            if(localStorage.getItem('account')){
+                localStorage.removeItem('account')
+            }
+            if(localStorage.getItem('role')){
+                localStorage.removeItem('role')
+            }
+            if(localStorage.getItem('isLogin')){
+                localStorage.removeItem('isLogin')
+            }
             this.$emit("Logout",false);       
         }
     },

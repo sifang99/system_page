@@ -4,7 +4,7 @@
         <div id="header">
             <img src="../../assets/img/logo.jpg" class="logo">
             <p class="title">某高校教学管理系统</p>
-            <input type="button" class="logout" value="退出登录" @click="logout">
+            <input type="button" class="isjs-ac-userlogout logout" value="退出登录" @click="logout">
             <p class="user_role">角色： 教师</p>
             <p class="user_name">用户：{{teacher.username}}</p>
             <img src="../../assets/img/user_logo.png" class="user_logo">
@@ -15,31 +15,31 @@
                     <li>
                         <img src="../../assets/img/icon_i.png" alt="">
                         <router-link to="/teacher/information">
-                            <input type="button" value="个人信息" class="menu-item">
+                            <input type="button" value="个人信息" class="isjs-ac-01 menu-item">
                         </router-link>
                     </li>
                     <li>
                         <img src="../../assets/img/icon_attention.png" alt="">
                         <router-link to="/teacher/attention">
-                            <input type="button" value="我需留意" class="menu-item">
+                            <input type="button" value="我需留意" class="isjs-ac-02 menu-item">
                         </router-link>
                     </li>
                     <li>
                         <img src="../../assets/img/icon_people.jpg" alt="">
                         <router-link to="/teacher/schedule">
-                            <input type="button" value="查看课表" class="menu-item">
+                            <input type="button" value="查看课表" class="isjs-ac-teacherTable menu-item">
                         </router-link>
                     </li>
                     <li>
                         <img src="../../assets/img/icon_right.png" alt="">
                         <router-link to="/teacher/recordgrade">
-                            <input type="button" value="登记成绩" class="menu-item">
+                            <input type="button" value="登记成绩" class="isjs-ac-04 menu-item">
                         </router-link>
                     </li>
                      <li>
                         <img src="../../assets/img/icon_key.jpg" alt="">
                         <router-link to="/teacher/changPassword">
-                            <input type="button" value="修改密码" class="menu-item">
+                            <input type="button" value="修改密码" class="isjs-ac-05 menu-item">
                         </router-link>
                     </li>
                 </ul>
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-
+import { dataAcquisition } from "../../assets/js/dataAcquisition";
 export default {
     name: 'Teacher_content',
     data(){
@@ -83,6 +83,15 @@ export default {
             this.message = e;
         },
         logout(){
+            if(localStorage.getItem('account')){
+                localStorage.removeItem('account')
+            }
+            if(localStorage.getItem('role')){
+                localStorage.removeItem('role')
+            }
+            if(localStorage.getItem('isLogin')){
+                localStorage.removeItem('isLogin')
+            }
             this.$emit("Logout",false);        
         }
     },
