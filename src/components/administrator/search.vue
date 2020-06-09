@@ -90,6 +90,7 @@ export default {
 </script>
 <style>
 @import "../../assets/css/search.css";
+
 .result-card{
     width: 90%;
     margin-bottom: 5px;

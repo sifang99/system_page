@@ -27,12 +27,18 @@ import logoutStudent from '../components/administrator/logoutuser/logout_student
 import permission from '../components/administrator/permission/permission'
 import manageRole from '../components/administrator/permission/managerole'
 import userAction from '../components/administrator/userAction'
+import search from '../components/administrator/search'
 
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
+    {
+      path:'/search',
+      name:'search',
+      component:search
+    },
     {
       path:'/login',
       name:'login',
