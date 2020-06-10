@@ -101,15 +101,6 @@ var dataAcquisition = {
 
         //点击事件监听
         if(this.store.openClick){
-            //对本页面添加监听（ios兼容性问题）
-            if (/iphone|ipad|ipod/i.test(window.navigator.userAgent)) {
-                var elements = document.getElementsByTagName("body")[0].childNodes;
-                for (var z = 0, length = elements.length; z < length; z++) {
-                    elements[z].addEventListener("click", function () {
-                    });
-                }
-            }
-
             document.addEventListener("click", function (e) {
                 var event = window.event || e;
                 var target = event.srcElement ? event.srcElement : event.target;
@@ -241,6 +232,4 @@ if (typeof define === "function" && define.amd) {
 } else {
     window['dataAc'] = dataAcquisition.init();
 }
-window.onbeforeunload = function () {
-    this.dataAcquisition.postData();
-}
+

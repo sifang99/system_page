@@ -13,7 +13,7 @@
     </el-tabs>
 
     <div class="result-box clearfix">
-        <div class="result-wrapper">
+        <div class="result-wrapper clearfix">
             <el-card class="result-card" v-for="item in resultlist" :key="item">
                 <div slot="header" class="clearfix">
                     <span class="result-title">{{item.title}}</span>
@@ -23,7 +23,7 @@
                 </div>
             </el-card>
         </div>
-        <div class="img-wrapper1"></div>
+        <!-- <div class="img-wrapper1"></div> -->
     </div>
 </el-container>
 </template>

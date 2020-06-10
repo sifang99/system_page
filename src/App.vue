@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-      <router-view v-on:Login="getLoginPage" v-on:Search="getSearchPage" v-bind:getUser="user" v-on:Logout="logout"></router-view>
+      <router-view v-on:Login="getLoginPage" v-on:Log="getLogInfoPage" v-on:Search="getSearchPage" v-bind:getUser="user" v-on:Logout="logout"></router-view>
   </div>
 </template>
 
@@ -15,6 +15,9 @@ export default {
   methods:{
     getSearchPage(){
       this.$router.push('/search')
+    },
+    getLogInfoPage(){
+      this.$router.push('/logInfo')
     },
     logout(value){
       this.$router.push('/login');

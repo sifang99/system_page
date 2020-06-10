@@ -28,12 +28,18 @@ import permission from '../components/administrator/permission/permission'
 import manageRole from '../components/administrator/permission/managerole'
 import userAction from '../components/administrator/userAction'
 import search from '../components/administrator/search'
+import logInfo from '../components/administrator/logInfo'
 
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
+    {
+      path:'/logInfo',
+      name:'logInfo',
+      component: logInfo
+    },
     {
       path:'/search',
       name:'search',
@@ -56,6 +62,7 @@ export default new Router({
         }
       },
       children: [
+        
         {
           path:'userAction',
           name:'userAction',

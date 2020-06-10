@@ -60,7 +60,7 @@
 
 .result-wrapper{
     width: 70%;
-    height: 500px;
+    /* height: 500px; */
     /* border: 1px solid black; */
     position: relative;
     background-color:rgb(250, 249, 249,0.6) ;
@@ -70,8 +70,8 @@
 }
 .img-wrapper1{
     width: 100%;
-    float: left;
-    margin-top: -200px;
+    /* float: left; */
+    margin-top: 50px;
     height: 225px;
     background: url(../img/decoration3.png) 0px 0px no-repeat;
 }

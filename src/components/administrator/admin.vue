@@ -21,14 +21,12 @@
                     <li>
                         <img src="../../assets/img/icon_key.jpg" alt="">
                         <router-link to="/administrator/userAction">
-                            <input type="button" value="用户行为统计" class="isjs-ac-09 menu-item">
+                            <input type="button" value="用户行为统计" class="menu-item">
                         </router-link>
                     </li>
                     <li>
                         <img src="../../assets/img/icon_key.jpg" alt="">
-                        <router-link to="/administrator/userAction">
-                            <input type="button" value="查看日志" class="isjs-ac-09 menu-item">
-                        </router-link>
+                        <input type="button" @click="getLogPage" value="查看日志" class="isjs-ac-11 menu-item">
                     </li>
                     <li>
                         <img src="../../assets/img/icon_key.jpg" alt="">
@@ -116,6 +114,9 @@ export default {
         }
     },
     methods:{
+        getLogPage(){
+            this.$emit("Log");
+        },
         getSearchPage(){
             this.$emit("Search");
         },
