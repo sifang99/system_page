@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h3>登陆总次数：</h3>
+        <h3>登陆总次数：{{this.loginTotal}}</h3>
         <div class="clearfix">
             <div id="student"></div>
             <div id="teacher"></div>
@@ -10,8 +10,7 @@
             <el-input v-model="account" placeholder="输入用户账号查询" class="input-user"></el-input>
             <el-button class="query" @click="query">查询</el-button>
 
-            <el-table :data="traces" style="width: 100%" 
-                stripe="true"
+            <el-table :data="traces" style="width: 100%" stripe="true"
                 border="true"
                 class="table-userlists"
                 row-style="height:0"
@@ -72,15 +71,14 @@ export default {
                 series:[{
                     name:'教师',
                     type: 'bar',
-                    data:[4, 35, 10],
+                    data:[],
                     itemStyle:{
                         normal:{
                             color:function(){
                                 return '#336699'
                             }
                         }
-                    }
-                    
+                    }   
                 }],  
             },
             students:{
@@ -92,18 +90,7 @@ export default {
                     data:["查看成绩","学生选课","查看课表","修改个人档案"]
                 },
                 yAxis:{},
-                series:[{
-                    name:'学生',
-                    type:'bar',
-                    data:[32, 45, 200, 80],
-                    itemStyle:{
-                        normal:{
-                            color:function(){
-                                return '#669999'
-                            }
-                        }
-                    }
-                }]
+                series:[]
             }
         }
     },
@@ -121,13 +108,15 @@ export default {
                 alert("请输入正确的账号！")
                 return
             }
+            console.log(this.pageSize)
+            console.log(this.currentPage)
             this.$axios.get('/manager/showAction', 
             {params:{'page':this.currentPage, 'rows':this.pageSize, 'userID':this.account}})
             .then(res => {
                 console.log(res)
                 if(res.data){
                     this.totalNum = res.data.totals
-                    this.traces = res.data.actions
+                    this.traces = res.data.action
                 }
             })
             .catch(function(error){
@@ -136,23 +125,100 @@ export default {
         },
         query(){
             this.getData()
+            console.log(this.students)
+            console.log(this.teachers)
         },
         getLoginTotal(){
-
+            var actions = ['LOGIN']
+            actions = JSON.stringify(actions)
+            this.$axios.post('/manager/showActionCount', actions)
+            .then(res => {
+                if(res.data){
+                    this.loginTotal = res.data[0].count
+                }
+            })
+            .catch(function(error){
+                console.log("获取登录总数发生错误！")
+            })
         },
         getStudentTotal(){
-
+            var actions = ['GET_GRADE','CHOOSE_COURSE','STUDENT_COURSE_TABLE','STUDNET_UPDATE_INFO']
+            actions = JSON.stringify(actions)
+            this.$axios.post('/manager/showActionCount', actions)
+            .then(res => {
+                if(res.data){
+                    var item = {
+                        title:'学生',
+                        type:'bar',
+                        data:[],
+                        itemStyle:{
+                            normal:{
+                                color:function(){
+                                    return '#669999'
+                                }
+                            }
+                        }
+                    }
+                    var length = res.data.length
+                    for(var i = 0; i < length; i++){
+                        if(res.data[i].action === 'GET_GRADE'){
+                            item.data[0] = res.data[i].count
+                        }
+                        if(res.data[i].action === 'CHOOSE_COURSE'){
+                            item.data[1] = res.data[i].count
+                        }
+                        if(res.data[i].action == 'STUDENT_COURSE_TABLE'){
+                            item.data[2] = res.data[i].count
+                        }
+                        if(res.data[i].action == 'STUDNET_UPDATE_INFO'){
+                            item.data[3] = res.data[i].count
+                        }
+                    }
+                    this.students.series.push(item)
+                    this.init()
+                    console.log(this.students.series[0].data)
+                }
+            })
+            .catch(function(error){
+                console.log("获取学生浏览数据发生错误")
+            })
         },
         getTeacherTotal(){
+            var actions = ['TEACHER_RECORD_GRADE','TEACHER_COURSE_TABLE','TEACHER_UPDATE_INFO']
+            actions = JSON.stringify(actions)
+            this.$axios.post('/manager/showActionCount',actions)
+            .then(res => {
+                if(res.data){
+                    var length = res.data.length
+                    for(var i = 0; i < length; i++){
+                        if(res.data[i].action == 'TEACHER_RECORD_GRADE'){
+                            this.teachers.series[0].data[0] = res.data[i].count
+                        }
+                        if(res.data[i].action == 'TEACHER_COURSE_TABLE'){
+                            this.teachers.series[0].data[1] = res.data[i].count
+                        }
+                        if(res.data[i].action == 'TEACHER_UPDATE_INFO'){
+                            this.teachers.series[0].data[2] = res.data[i].count
+                        }
+                    }
+                    this.init()
+                }
+            })
+            .catch(function(error){
+                console.log("获取教师浏览数据发生错误")
+            })
 
+        },
+        init(){
+            let  studentEchart = echarts.init(document.getElementById('student'));
+            let  teacherEchart = echarts.init(document.getElementById('teacher'));
+            studentEchart.setOption(this.students);
+            teacherEchart.setOption(this.teachers)
         }
     },
+    
     mounted(){
-        let studentEchart = echarts.init(document.getElementById('student'));
-        studentEchart.setOption(this.students);
-
-        let teacherEchart = echarts.init(document.getElementById('teacher'));
-        teacherEchart.setOption(this.teachers)
+        this.init()
     },
     created(){
         this.getLoginTotal()

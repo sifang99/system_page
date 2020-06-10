@@ -17,7 +17,23 @@
                         <router-link to="/administrator/adminInfo">
                             <input type="button" value="个人信息" class="isjs-ac-01 menu-item">
                         </router-link>
-                    </li>              
+                    </li> 
+                    <li>
+                        <img src="../../assets/img/icon_key.jpg" alt="">
+                        <router-link to="/administrator/userAction">
+                            <input type="button" value="用户行为统计" class="isjs-ac-09 menu-item">
+                        </router-link>
+                    </li>
+                    <li>
+                        <img src="../../assets/img/icon_key.jpg" alt="">
+                        <router-link to="/administrator/userAction">
+                            <input type="button" value="查看日志" class="isjs-ac-09 menu-item">
+                        </router-link>
+                    </li>
+                    <li>
+                        <img src="../../assets/img/icon_key.jpg" alt="">
+                            <input type="button" @click="getSearchPage" value="全文搜索" class="isjs-ac-09 menu-item">
+                    </li>             
                     <li>
                         <img src="../../assets/img/icon_book.jpg" alt="">
                         <router-link to="/administrator/addCourse">
@@ -62,12 +78,6 @@
                     </li>
                     <li>
                         <img src="../../assets/img/icon_key.jpg" alt="">
-                        <router-link to="/administrator/userAction">
-                            <input type="button" value="用户行为统计" class="isjs-ac-09 menu-item">
-                        </router-link>
-                    </li>
-                    <li>
-                        <img src="../../assets/img/icon_key.jpg" alt="">
                         <router-link to="/administrator/changPassword">
                             <input type="button" value="修改密码" class="isjs-ac-10 menu-item">
                         </router-link>
@@ -106,6 +116,9 @@ export default {
         }
     },
     methods:{
+        getSearchPage(){
+            this.$emit("Search");
+        },
         logout(){
             if(localStorage.getItem('account')){
                 localStorage.removeItem('account')

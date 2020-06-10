@@ -222,7 +222,7 @@ var dataAcquisition = {
         data = clickAcData
         console.log("postData in dataAcquisition")
         console.log(data)
-        axios.post('/manager/updateAction',data)
+        axios.post('/user/updateAction',data)
         .then(res => {
             if(res.state){
                 console.log("用户轨迹发送成功")
