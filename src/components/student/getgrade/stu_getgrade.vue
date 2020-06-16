@@ -32,7 +32,7 @@
  </div>
 </template>
 
-<script>
+<script >
 export default {
   name: 'stu-getgrade',
   data () {
@@ -124,7 +124,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .el-table{
     border: 1px solid #cccccc;
     text-align: center;

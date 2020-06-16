@@ -48,6 +48,7 @@ export default {
     },
     methods: {
         login() {
+            
                 //登录
 
                 //判断账号是否合法
@@ -130,11 +131,11 @@ export default {
         r_ctx.fill();
         r_ctx.strokeStyle = "#2E8B57";
         r_ctx.stroke();
-    }
+    },
 }
 </script>
 
-<style>
+<style scoped>
 @import "../../assets/css/login.css";
 @import "../../assets/css/color.css";
 </style>

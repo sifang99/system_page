@@ -140,7 +140,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 @import "../../assets/css/administrator.css";
 @import "../../assets/css/color.css";
 

@@ -115,7 +115,8 @@ export default {
         'getUser'
     ],
     created(){
-        this.$axios.get("/manager/findByMno",{params: {mno: this.admin.account}})
+        var account = localStorage.getItem('account')
+        this.$axios.get("/manager/findByMno",{params: {mno: account}})
         .then(res => {
             if(res != null){
                 this.info = res.data;
@@ -136,8 +137,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+@import '../../assets/css/color.css';
 .info-btn{
     width: 60px;
     height: 30px;

@@ -127,7 +127,8 @@ export default {
         },
     },
   created () {
-      this.$axios.get("/teacher/findByTno",{params:{tno: this.teacher.tno}})
+      var account = localStorage.getItem('account')
+      this.$axios.get("/teacher/findByTno",{params:{tno: account}})
       .then(res => {
           console.log(res);
           this.teacherInfo = res.data;
@@ -145,7 +146,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 @import "../../assets/css/color.css";
 .teacher-info-btn{
     width: 60px;

@@ -35,7 +35,7 @@
 
 
 
-<script>
+<script >
 import { dataAcquisition } from "../../../assets/js/dataAcquisition";
 export default {
   name: 'stu-chooseCourse',
@@ -182,7 +182,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .el-table{
     border: 1px solid #cccccc;
     text-align: center;

@@ -414,8 +414,7 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
 @import "../../../assets/css/color.css";
 
 #add_student_submit{

@@ -86,7 +86,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 .notice-button{
     width: 60px;

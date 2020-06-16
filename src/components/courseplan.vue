@@ -272,7 +272,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
     .table-container {
         margin: 0 auto;
         width: 80%;

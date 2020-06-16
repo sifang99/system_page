@@ -98,7 +98,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 @import "../../assets/css/color.css";
 .separateLine{
     margin-top: 10px;

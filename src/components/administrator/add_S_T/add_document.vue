@@ -13,7 +13,7 @@
     </div>
 </template>
 
-<style>
+<style scoped>
 @import "../../../assets/css/color.css";
 .doc-box{
     width: 95%;

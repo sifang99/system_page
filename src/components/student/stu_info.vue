@@ -77,7 +77,7 @@
     </div>
 </template>
 
-<script>
+<script >
 import { dataAcquisition } from "../../assets/js/dataAcquisition";
 export default {
   name: 'stu-info',
@@ -108,7 +108,8 @@ export default {
     ],
   created () {
     //   console.log(this.student);
-      this.$axios.get("/student/findBySno",{params: {sno: this.student.sno}})
+    var account = localStorage.getItem('account')
+      this.$axios.get("/student/findBySno",{params: {sno: account}})
       .then(res => {
           console.log(res);
           this.studentInfo = res.data;
@@ -154,7 +155,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 .stu-btn{
     width: 60px;

@@ -296,7 +296,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .btn-addrole{
     float: left;
     background-color: #2E8B57;

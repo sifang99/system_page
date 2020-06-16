@@ -39,7 +39,7 @@
 </el-container>
 </template>
 
-<script>
+<script >
 export default {
     name: 'logInfo',
     data(){
@@ -153,7 +153,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 @import "../../assets/css/search.css";
 
 .time-label{

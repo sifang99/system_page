@@ -175,7 +175,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .el-table{
     background: oldlace;
     /* border:1px solid black; */

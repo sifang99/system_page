@@ -47,7 +47,7 @@
 </template>
 
 
-<script>
+<script >
 export default {
   name: 'logout-user',
   data () {
@@ -181,7 +181,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 
 #stu-btn-find{
     background-color: #2E8B57;

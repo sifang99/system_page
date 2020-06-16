@@ -6,6 +6,8 @@
         <el-input v-model="searchinfo" placeholder="请输入相关内容" class="search-input">
             <el-button slot="append" type="primary" class="btn-search" @click="SearchResult">搜索</el-button>
         </el-input>
+        <el-button @click="createIndex">创建索引</el-button>
+        <el-button @click="createAttr">创建字段</el-button>
     </el-header>
 
     <el-tabs v-model="activeName">
@@ -40,6 +42,24 @@ export default {
     }
   },
   methods: {
+    createIndex(){
+      this.$axios.get('/elasticsearch/init')
+            .then(res => {
+                console.log("创建索引成功！")
+            })
+            .catch(function(error){
+                console.log("创建索引发生错误！")
+            })
+    },
+    createAttr(){
+      this.$axios.get('/elasticsearch/bulkrequest')
+      .then(res => {
+          console.log("创建字段成功！")
+      })
+      .catch(function(error){
+          console.log("创建字段发生错误！")
+      })
+    },
     // 处理搜索
     SearchResult () {
       this.resultlist.splice(0,this.resultlist.length)
@@ -205,7 +225,7 @@ export default {
 
 }
 </script>
-<style>
+<style scoped>
 @import "../../assets/css/search.css";
 
 .result-card{

@@ -44,7 +44,7 @@
 
 
 
-<script>
+<script >
 export default {
   name: 'logout-user',
   data () {
@@ -129,7 +129,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 #logout-teacherbox,#logout-studentbox{
     border: 1px solid #CCCCCC;
 }

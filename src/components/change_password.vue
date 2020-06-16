@@ -112,7 +112,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 
 .changepwd-box{
     width:60%;

@@ -434,7 +434,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+@import '../../assets/css/color.css';
 
 .time-dialog{
     width: 80%;

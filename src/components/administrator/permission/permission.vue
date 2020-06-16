@@ -68,7 +68,7 @@
     </div>
 </template>
 
-<script>
+<script >
 export default {
   name: 'edit-permission',
   data () {
@@ -217,7 +217,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .search-input{
     width: 20%;
     float: left;
